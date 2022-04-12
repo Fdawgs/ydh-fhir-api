@@ -12,6 +12,7 @@ const secJSON = require("secure-json-parse");
  */
 async function plugin(server) {
 	server.register(bearer, {
+		addHook: false,
 		errorResponse: (err) => ({
 			statusCode: 401,
 			error: "Unauthorized",

@@ -19,13 +19,7 @@ const dateTimeSearchPatternExamples = [
 	"ge2022-01-13T00:00:01+01:00",
 ];
 
-const accessRecordScopes = [
-	"contact.delete",
-	"contact.read",
-	"contact.search",
-	"contact.put",
-	"contact.post",
-];
+const accessRecordScopes = ["*"];
 
 const accessRecordBaseSchema = S.object()
 	.prop("id", S.string().format("uuid"))
