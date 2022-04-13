@@ -18,7 +18,7 @@ const testPayload = {
 	name: "Shared Care Record SPA",
 	email: "example@example.com",
 	expires: faker.date.past().toISOString().split("T")[0],
-	scopes: ["*"],
+	scopes: ["all"],
 };
 
 const testResult = {
@@ -303,7 +303,7 @@ describe("Access Route", () => {
 					"access.name": testResult.name,
 					"access.email": testResult.email,
 					"access.expires": testResult.expires,
-					"access.scopes": "*",
+					"access.scopes": "all",
 					"meta.created": testDate1,
 					"meta.last_updated": testDate1,
 					per_page: testPage,
@@ -330,7 +330,7 @@ describe("Access Route", () => {
 				url: "/",
 				query: {
 					"access.expires": [testDate1, testDate2],
-					"access.scopes": ["*"],
+					"access.scopes": ["all"],
 					"meta.created": [testDate1, testDate2],
 					"meta.last_updated": [testDate1, testDate2],
 				},

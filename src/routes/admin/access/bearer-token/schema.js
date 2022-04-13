@@ -19,7 +19,7 @@ const dateTimeSearchPatternExamples = [
 	"ge2022-01-13T00:00:01+01:00",
 ];
 
-const accessRecordScopes = ["*"];
+const accessRecordScopes = ["all"];
 
 const accessRecordBaseSchema = S.object()
 	.prop("id", S.string().format("uuid"))
