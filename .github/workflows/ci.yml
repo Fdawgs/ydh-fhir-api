@@ -91,7 +91,7 @@ jobs:
         if: github.event.pull_request.draft == false
         strategy:
             matrix:
-                node: [14, 16]
+                node: [16]
                 # Only Linux containers support services currently
                 os: [ubuntu-latest]
         runs-on: ${{ matrix.os }}
