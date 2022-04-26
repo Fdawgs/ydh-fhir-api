@@ -15,27 +15,7 @@
 
 This is [Yeovil District Hospital NHSFT](https://yeovilhospital.co.uk/)'s RESTful HL7® FHIR® API, a Node.js application using the [Fastify](https://www.fastify.io/) web framework.
 
-### Background
-
-[Somerset Clinical Commissioning Group](https://www.somersetccg.nhs.uk/#) (CCG) started the [SIDeR project](https://www.somersetccg.nhs.uk/about-us/digital-projects/sider/) with the purpose of linking up all main clinical and social care IT systems used in Somerset to improve and support direct care. [Black Pear Software Ltd.](https://www.blackpear.com/) (BP) is the technical partner that supports the project.
-
-Stakeholders (as of 2022-04-04) are:
-
--   [Children's Hospice South West](https://www.chsw.org.uk/) (CHSW)
--   [Devon Doctors](https://www.devondoctors.co.uk/) (DD)
--   [Dorothy House Hospice](https://www.dorothyhouse.org.uk/) (DHH)
--   GP practices within Somerset (GPs)
--   [Somerset County Council](https://www.somerset.gov.uk/) (SCC)
--   [Somerset NHS Foundation Trust](https://www.somersetft.nhs.uk/) (SFT)
--   [South Western Ambulance Service NHS Foundation Trust](https://www.swast.nhs.uk/) (SWASFT)
--   [St Margaret’s Hospice](https://www.st-margarets-hospice.org.uk/) (SMH)
--   [Yeovil District Hospital NHS Foundation Trust](https://yeovilhospital.co.uk/) (YDH)
-
-Black Pear have built a single-page web application for a shared care record, which retrieves data relating to a patient from each stakeholder that has the capability to do so, and amalgamate it into this record. The record is not stored in a cache anywhere and is built on the fly.
-Care providers can then access this record through a contextual link (an embedded link within the PAS).
-Clients using the web app need to be able to make GET requests to RESTful HL7® FHIR® API endpoints to retrieve a set of seven FHIR resources that adhere to their respective [NHS Care Connect API profiles](https://nhsconnect.github.io/CareConnectAPI/) to populate the record.
-
-Since deployment these API endpoints are being used by a growing number of internal applications and processes at the hospital.
+Background information detailing the history and purpose of this API can be found [here](./docs/history.md).
 
 ## Prerequisites
 
@@ -120,9 +100,65 @@ If using a Microsoft Windows OS utilise [pm2-installer](https://github.com/jesse
 
 **Note:** PM2 will automatically restart the application if `.env` is modified.
 
+## Known Issues and Caveats
+
+Issues with InterSystems TrakCare PAS (used by YDH) and staff misuse of the PAS have affected how the data is presented in the endpoints and how searches can be performed.
+
+### Data Quality
+
+-   AllergyIntolerance resources:
+    -   Unable to provide SNOMED codes for allergies and intolerances in AllergyIntolerance resources due to these being free text inputs in TrakCare
+    -   Low recordings of allergy and intolerance data in TrakCare:
+        -   350,513 non-deceased patients with records in TrakCare as of 2020-11-19
+            -   34,405 patients have ‘No Known Allergy’ recorded (9.8%)
+            -   13,139 patients have one or more allergies recorded (3.7%)
+    -   Due to the above issues, Paul Foster (CCIO at YDH) on 2020-11-19 suggested we **do not provide AllergyIntolerance resources** (functionality is still present however)
+-   Condition resources:
+    -   **Unable to provide Condition resources** as conditions are held in SimpleCode, not TrakCare
+-   DocumentReference resources:
+    -   **Unable to provide DocumentReference resources** as these are held in Patient Centre, not TrakCare
+-   Encounter resources:
+    -   Discharge/end dates for outpatient Encounter resources are not provided due to poor data quality. Staff in outpatients misuse these input fields in TrakCare to mark when “all admin has been completed for that outpatient encounter” and not when the encounter actually finished
+    -   Unable to provide clinician contact details for Encounter resources due to the following:
+        -   In TrakCare a care provider has a mobile number field against them, but it is rarely populated
+        -   There is not an internal contact number field in TrakCare
+        -   If you want to reach say, a gynaecology consultant, you need to manually search a list on YDH’s intranet for their secretary’s extension number, and there is no indication as to how current the list is
+        -   Teams do not have a contact number
+-   Patient resources:
+    -   Unable to provide SNOMED codes for religious affiliation as these are not in TrakCare (NHS Data Dictionary coding is provided, however)
+    -   Unable to provide GP surgery/organisation `name` value for inline Organization FHIR resource as this data is also not held in TrakCare; using GP consultant name as a placeholder
+    -   A sizeable number of patient records without postcodes
+
+### Search Caveats
+
+-   Every search request to a FHIR resource endpoint that is **NOT** the Patient FHIR resource endpoint **MUST** have a `patient` search parameter, this is to stop intentional or unintentional DOS attacks due to long-running SQL queries:
+    -   `GET [baseUrl]/AllergyIntolerance?criticality=[code]` will return a 500 error
+    -   `GET [baseUrl]/AllergyIntolerance?patient=[id]&criticality=[code]` will work
+
+This is due to YDH not having direct control over the underlying databases of the PAS, so cannot add indexes or make appropriate performance tweaks to support searches without also filtering by patient.
+
 ## Contributing
 
 Contributions are welcome, and any help is greatly appreciated!
 
 See [the contributing guide](./CONTRIBUTING.md) for details on how to get started.
 Please adhere to this project's [Code of Conduct](./CODE_OF_CONDUCT.md) when contributing.
+
+## Acknowledgements
+
+-   **Adam Wiles** - Procedure FHIR resource advice
+-   **David Suckling** - TrakCare database table structure and frontend support
+-   [**Dunmail Hodkinson**](https://github.com/Dunmail) - HL7 FHIR STU3 specification adherence and best practices advice
+-   **George Dampier** - MedicationStatement FHIR resource advice
+-   **Jessica Male** - TrakCare frontend support
+-   [**Julian Matthews**](https://github.com/NHS-juju) - Bug reports
+-   **John Simpson** - MedicationStatement FHIR resource advice
+-   [**Mark Hunt**](https://github.com/nhsbandit) - JWT and JWKS integration and testing
+-   **Michael McCormack** - SQL query optimisation
+-   [**Neil Hayes-Webster**](https://github.com/NeilHW-YDH) - SQL query optimisation
+-   **Nicolas Noblet** - SQL query optimisation, TrakCare database table structure advice
+-   [**Will Jehring**](https://github.com/wjehring) - HL7 FHIR STU3 specification adherence advice, JWT testing
+
+## License
+
+`ydh-fhir-api` is licensed under the [MIT](./LICENSE) license.
