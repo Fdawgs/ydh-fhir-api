@@ -126,3 +126,22 @@ Contributions are welcome, and any help is greatly appreciated!
 
 See [the contributing guide](./CONTRIBUTING.md) for details on how to get started.
 Please adhere to this project's [Code of Conduct](./CODE_OF_CONDUCT.md) when contributing.
+
+## Acknowledgements
+
+-   **Adam Wiles** - Procedure FHIR resource advice
+-   **David Suckling** - TrakCare database table structure and frontend support
+-   [**Dunmail Hodkinson**](https://github.com/Dunmail) - HL7 FHIR STU3 specification adherence and best practices advice
+-   **George Dampier** - MedicationStatement FHIR resource advice
+-   **Jessica Male** - TrakCare frontend support
+-   [**Julian Matthews**](https://github.com/NHS-juju) - Bug reports
+-   **John Simpson** - MedicationStatement FHIR resource advice
+-   [**Mark Hunt**](https://github.com/nhsbandit) - JWT and JWKS integration and testing
+-   **Michael McCormack** - SQL query optimisation
+-   [**Neil Hayes-Webster**](https://github.com/NeilHW-YDH) - SQL query optimisation
+-   **Nicolas Noblet** - SQL query optimisation, TrakCare database table structure advice
+-   [**Will Jehring**](https://github.com/wjehring) - HL7 FHIR STU3 specification adherence advice, JWT testing
+
+## License
+
+`ydh-fhir-api` is licensed under the [MIT](./LICENSE) license.
