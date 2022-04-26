@@ -42,7 +42,7 @@ Since deployment these API endpoints are being used by a growing number of inter
 -   InterSystems IRIS ODBC35 ODBC Driver 2021 (All InterSystems prerequisites must be sourced from them directly)
 -   InterSystems IRIS for Health 2020
 -   InterSystems TrakCare v2020
--   [Node.js](https://nodejs.org/en/) >=16.0.0 (if running outside of Docker)
+-   [Node.js](https://nodejs.org/en/) >=16.0.0
 -   [SQL Server](https://www.microsoft.com/en-gb/sql-server/sql-server-downloads) (As a Windows service/instance; SQL Server on Linux [does not support linked servers](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-editions-and-components-2019?view=sql-server-ver15#Unsupported))
 
 ## Setup
