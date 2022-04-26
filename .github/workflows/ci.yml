@@ -91,7 +91,7 @@ jobs:
         if: github.event.pull_request.draft == false
         strategy:
             matrix:
-                node: [14, 16]
+                node: [16]
                 # Only Linux containers support services currently
                 os: [ubuntu-latest]
         runs-on: ${{ matrix.os }}
@@ -134,34 +134,6 @@ jobs:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   parallel: true
                   flag-name: run-${{ matrix.node }}-${{ matrix.os }}
-
-    lint-docker-file:
-        name: Lint Dockerfile
-        if: github.event.pull_request.draft == false
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check out repo
-              uses: actions/checkout@v3
-
-            - name: Run Hadolint
-              uses: hadolint/hadolint-action@v2.1.0
-              with:
-                  dockerfile: Dockerfile
-                  ignore: DL3018
-
-    docker-compose-tests:
-        name: Docker Compose Build Tests
-        needs: lint-docker-file
-        if: github.event.pull_request.draft == false
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check out repo
-              uses: actions/checkout@v3
-
-            - name: Build and start app
-              run: |
-                  cp .env.template .env
-                  docker compose up -d
 
     coverage:
         name: Aggregate Coverage Calculations

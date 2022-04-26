@@ -39,8 +39,11 @@ Since deployment these API endpoints are being used by a growing number of inter
 
 ## Prerequisites
 
--   [Node.js](https://nodejs.org/en/) >=16.0.0 (if running outside of Docker)
--   [SQL Server](https://www.microsoft.com/en-gb/sql-server/sql-server-downloads) (either as a service/instance or Docker container)
+-   InterSystems IRIS ODBC35 ODBC Driver 2021 (All InterSystems prerequisites must be sourced from them directly)
+-   InterSystems IRIS for Health 2020
+-   InterSystems TrakCare v2020
+-   [Node.js](https://nodejs.org/en/) >=16.0.0
+-   [SQL Server](https://www.microsoft.com/en-gb/sql-server/sql-server-downloads) (As a Windows service/instance; SQL Server on Linux [does not support linked servers](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-editions-and-components-2019?view=sql-server-ver15#Unsupported))
 
 ## Setup
 
@@ -50,8 +53,10 @@ Perform the following steps before deployment:
 2. Navigate to the project directory
 3. Make a copy of `.env.template` in the root directory and rename it to `.env`
 4. Configure the application using the environment variables in `.env`
+5. Install InterSystems IRIS ODBC35 ODBC Driver
+6. Follow the InterSystems documentation for [Defining an ODBC Data Source on Windows](https://docs.intersystems.com/irislatest/csp/docbook/DocBook.UI.Page.cls?KEY=BNETODBC_winodbc) as a System DSN
 
-**Note:** You will need to create a database before using it in the `DB_CONNECTION_STRING` environment variable (this does not apply if using the included Docker Compose file to deploy)
+**Note:** You will need to create a database before using it in the `DB_CONNECTION_STRING` environment variable
 
 **Note:** Set the following environment variables in `.env` to meet NHS Digital's recommendation to retain 6 months' worth of logs:
 
@@ -100,15 +105,9 @@ The service should be up and running on the port set in the config. You should s
 
 To quickly test it, use [Insomnia](https://insomnia.rest/) and import the example requests from `./test_resources/insomnia_test_requests.json`.
 
-### Deploying Using Docker
-
-This requires [Docker](https://www.docker.com) installed.
-
-1. Run `docker compose up` (or `docker compose up -d` to run in background)
-
 ### Deploying Using PM2
 
-If you are unable to deploy this into production using Docker, it is recommended that you use a process manager such as [PM2](https://pm2.keymetrics.io/).
+It is recommended that you use a process manager such as [PM2](https://pm2.keymetrics.io/).
 
 1. Run `npm install --ignore-scripts --production` to install dependencies
 2. Run `npm install -g pm2` to install pm2 globally
