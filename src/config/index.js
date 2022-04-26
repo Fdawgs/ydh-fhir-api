@@ -141,6 +141,9 @@ async function getConfig() {
 
 			// Database Connection
 			.prop("DB_CONNECTION_STRING", S.string())
+			.prop("DB_LINKED_SERVER_NAME", S.string())
+			.prop("DB_LINKED_SERVER_USERNAME", S.string())
+			.prop("DB_LINKED_SERVER_PASSWORD", S.string())
 			.required([
 				"NODE_ENV",
 				"SERVICE_HOST",
@@ -148,6 +151,9 @@ async function getConfig() {
 				"ADMIN_USERNAME",
 				"ADMIN_PASSWORD",
 				"DB_CONNECTION_STRING",
+				"DB_LINKED_SERVER_NAME",
+				"DB_LINKED_SERVER_USERNAME",
+				"DB_LINKED_SERVER_PASSWORD",
 			]),
 	});
 
@@ -291,6 +297,11 @@ async function getConfig() {
 		bearerTokenAuthEnabled: env.BEARER_TOKEN_AUTH_ENABLED === true,
 		database: {
 			connection: env.DB_CONNECTION_STRING,
+			linkedServer: {
+				name: env.DB_LINKED_SERVER_NAME,
+				username: env.DB_LINKED_SERVER_USERNAME,
+				password: env.DB_LINKED_SERVER_PASSWORD,
+			},
 		},
 	};
 

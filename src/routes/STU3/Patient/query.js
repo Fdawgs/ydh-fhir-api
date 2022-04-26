@@ -51,14 +51,14 @@ SELECT nhsNumber,
 	contactName,
 	contactPhone,
 	contactText,
-	dnd.DND,
+	dnd.dnd,
 	school.schoolName,
 	school.schoolId,
 	school.schoolPhone,
 	-- Every resource query must always have a lastUpdated column
 	CONCAT(COALESCE(lastUpdateDate, ''), 'T', COALESCE(lastUpdateTime, '')) AS lastUpdated
 FROM OPENQUERY(
-		[${linkedServer}], 'SELECT 
+		[${linkedServer}], 'SELECT
 									patmas.PAPMI_PAPER_DR->PAPER_ID AS nhsNumber,
 									patmas.PAPMI_TraceStatus_DR->TRACE_Desc AS nhsNumberTraceStatusDesc,
 									patmas.PAPMI_TraceStatus_DR AS nhsNumberTraceStatusCode,
@@ -140,8 +140,8 @@ FROM OPENQUERY(
 										? `AND ${whereClausePredicates[0]}`
 										: ""
 								}') AS patient
-	LEFT JOIN lookup.dnd AS dnd WITH (NOLOCK)
-	ON patient.patientNo = dnd.patientNo
+	LEFT JOIN lookup.patient_dnd AS dnd WITH (NOLOCK)
+	ON patient.patientNo = dnd.patient_no
 
 	LEFT JOIN OPENQUERY([${linkedServer}],
                  'SELECT DISTINCT NOK_NonGovOrg_DR->NGO_Code AS schoolId,
@@ -155,7 +155,7 @@ FROM OPENQUERY(
                    ') AS school
 	ON patient.patientNo = school.patientNo
 
-	LEFT JOIN lookup.ethnicity ethnic WITH (NOLOCK)
+	LEFT JOIN lookup.patient_ethnicity ethnic WITH (NOLOCK)
 	ON patient.ethnicCategoryCode = ethnic.trakcare_code
 
 	LEFT JOIN( SELECT (

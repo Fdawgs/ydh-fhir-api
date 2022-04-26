@@ -53,7 +53,7 @@ SELECT flag_CTE.*,
        ELSE periodStart
        END AS lastUpdated
 FROM flag_CTE
-  LEFT JOIN lookup.alerts AS snom WITH (NOLOCK)
+  LEFT JOIN lookup.patient_alerts AS snom WITH (NOLOCK)
   ON flag_CTE.flagCodeCodingCode = snom.trakcare_code
 WHERE flagStatusCode IS NOT NULL ${
 	whereClausePredicates?.[1] ? `AND ${whereClausePredicates[1]}` : ""

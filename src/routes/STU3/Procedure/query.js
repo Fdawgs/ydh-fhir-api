@@ -27,7 +27,7 @@ SELECT id AS procedureId,
 	( SELECT 'https://fhir.nhs.uk/Id/opcs-4' AS [system],
     	code,
     	display
-  	FROM OPENQUERY([${linkedServer}], 
+  	FROM OPENQUERY([${linkedServer}],
 		'SELECT REPLACE(proc.PROC_RowID, ''||'', ''-'') AS id,
 			proc.PROC_Operation_DR->OPER_Code AS code,
 			proc.PROC_Operation_DR->OPER_Desc AS display

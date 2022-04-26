@@ -8,6 +8,9 @@ describe("Migrate Script", () => {
 		Object.assign(process.env, {
 			DB_CONNECTION_STRING:
 				"Server=localhost,1433;Database=master;User Id=sa;Password=Password!;Encrypt=true;TrustServerCertificate=true;",
+			DB_LINKED_SERVER_NAME: "ENYH-FAKE",
+			DB_LINKED_SERVER_USERNAME: "rmtuser",
+			DB_LINKED_SERVER_PASSWORD: "password",
 		});
 	});
 

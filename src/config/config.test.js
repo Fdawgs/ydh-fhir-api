@@ -52,6 +52,9 @@ describe("Configuration", () => {
 		const BEARER_TOKEN_AUTH_ENABLED = "";
 		const DB_CONNECTION_STRING =
 			"Server=localhost,1433;Database=database;User Id=username;Password=password;Encrypt=true";
+		const DB_LINKED_SERVER_NAME = "ENYH-FAKE";
+		const DB_LINKED_SERVER_USERNAME = "rmtuser";
+		const DB_LINKED_SERVER_PASSWORD = "password";
 
 		Object.assign(process.env, {
 			NODE_ENV,
@@ -79,6 +82,9 @@ describe("Configuration", () => {
 			ADMIN_PASSWORD,
 			BEARER_TOKEN_AUTH_ENABLED,
 			DB_CONNECTION_STRING,
+			DB_LINKED_SERVER_NAME,
+			DB_LINKED_SERVER_USERNAME,
+			DB_LINKED_SERVER_PASSWORD,
 		});
 
 		const config = await getConfig();
@@ -139,6 +145,11 @@ describe("Configuration", () => {
 
 		expect(config.database).toEqual({
 			connection: DB_CONNECTION_STRING,
+			linkedServer: {
+				name: DB_LINKED_SERVER_NAME,
+				username: DB_LINKED_SERVER_USERNAME,
+				password: DB_LINKED_SERVER_PASSWORD,
+			},
 		});
 	});
 
@@ -169,6 +180,9 @@ describe("Configuration", () => {
 		const BEARER_TOKEN_AUTH_ENABLED = true;
 		const DB_CONNECTION_STRING =
 			"Server=localhost,1433;Database=database;User Id=username;Password=password;Encrypt=true";
+		const DB_LINKED_SERVER_NAME = "ENYH-FAKE";
+		const DB_LINKED_SERVER_USERNAME = "rmtuser";
+		const DB_LINKED_SERVER_PASSWORD = "password";
 
 		Object.assign(process.env, {
 			NODE_ENV,
@@ -191,6 +205,9 @@ describe("Configuration", () => {
 			ADMIN_PASSWORD,
 			BEARER_TOKEN_AUTH_ENABLED,
 			DB_CONNECTION_STRING,
+			DB_LINKED_SERVER_NAME,
+			DB_LINKED_SERVER_USERNAME,
+			DB_LINKED_SERVER_PASSWORD,
 		});
 
 		const config = await getConfig();
@@ -250,6 +267,11 @@ describe("Configuration", () => {
 
 		expect(config.database).toEqual({
 			connection: DB_CONNECTION_STRING,
+			linkedServer: {
+				name: DB_LINKED_SERVER_NAME,
+				username: DB_LINKED_SERVER_USERNAME,
+				password: DB_LINKED_SERVER_PASSWORD,
+			},
 		});
 	});
 

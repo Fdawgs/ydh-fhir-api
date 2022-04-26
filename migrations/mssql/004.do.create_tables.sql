@@ -11,7 +11,7 @@ IF OBJECT_ID('access.tokens', 'U') IS NULL CREATE TABLE access.tokens
         last_updated DATETIMEOFFSET DEFAULT CURRENT_TIMESTAMP
     );
 
-IF OBJECT_ID('lookup.alerts', 'U') IS NULL CREATE TABLE lookup.alerts
+IF OBJECT_ID('lookup.patient_alerts', 'U') IS NULL CREATE TABLE lookup.patient_alerts
     (
         trakcare_code NVARCHAR(50) PRIMARY KEY NOT NULL,
         trakcare_display NVARCHAR(100) NOT NULL,
@@ -22,7 +22,13 @@ IF OBJECT_ID('lookup.alerts', 'U') IS NULL CREATE TABLE lookup.alerts
         last_updated DATETIMEOFFSET DEFAULT CURRENT_TIMESTAMP
     );
 
-IF OBJECT_ID('lookup.ethnicity', 'U') IS NULL CREATE TABLE lookup.ethnicity
+IF OBJECT_ID('lookup.patient_dnd', 'U') IS NULL CREATE TABLE lookup.patient_dnd
+    (
+        dnd NVARCHAR(50) NOT NULL,
+        patient_no NVARCHAR(50) PRIMARY KEY NOT NULL
+    );
+
+IF OBJECT_ID('lookup.patient_ethnicity', 'U') IS NULL CREATE TABLE lookup.patient_ethnicity
     (
         trakcare_code NVARCHAR(50) PRIMARY KEY NOT NULL,
         trakcare_display NVARCHAR(100) NOT NULL,
