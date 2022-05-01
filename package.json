@@ -114,7 +114,7 @@
 		"js2xmlparser": "^4.0.2",
 		"jwks-rsa": "^2.1.0",
 		"mssql": "^8.0.2",
-		"pino": "^7.9.2",
+		"pino": "^7.11.0",
 		"pino-pretty": "^7.6.0",
 		"postgrator": "^5.0.1",
 		"redoc": "^2.0.0-rc.66",
