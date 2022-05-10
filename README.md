@@ -19,7 +19,7 @@ Background information detailing the history and purpose of this API can be foun
 
 ## Prerequisites
 
--   InterSystems IRIS ODBC35 ODBC Driver 2021 (All InterSystems prerequisites must be sourced from them directly)
+-   InterSystems IRIS ODBC35 ODBC Driver 2021
 -   InterSystems IRIS for Health 2020
 -   InterSystems TrakCare v2020
 -   [Node.js](https://nodejs.org/en/) >=16.0.0
