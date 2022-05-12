@@ -1,6 +1,6 @@
 {
 	"name": "ydh-fhir-api",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "Yeovil District Hospital NHSFT's RESTful HL7® FHIR® API",
 	"main": "src/app.js",
 	"repository": "git+https://github.com/Fdawgs/ydh-fhir-api.git",
