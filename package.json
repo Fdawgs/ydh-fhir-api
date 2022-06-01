@@ -101,7 +101,7 @@
 		"@fastify/sensible": "^4.1.0",
 		"@fastify/static": "^5.0.2",
 		"@tediousjs/connection-string": "^0.4.0",
-		"dotenv": "^16.0.0",
+		"dotenv": "^16.0.1",
 		"env-schema": "^5.0.0",
 		"fast-jwt": "^1.5.4",
 		"fastify": "^3.29.0",
