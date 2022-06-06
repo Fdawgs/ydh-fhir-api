@@ -1,5 +1,13 @@
 version: 2
 updates:
+    - package-ecosystem: docker
+      commit-message:
+          include: scope
+          prefix: build
+      directory: /
+      schedule:
+          interval: monthly
+
     - package-ecosystem: github-actions
       commit-message:
           include: scope
