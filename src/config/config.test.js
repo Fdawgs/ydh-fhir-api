@@ -50,6 +50,7 @@ describe("Configuration", () => {
 		const ADMIN_USERNAME = "admin";
 		const ADMIN_PASSWORD = "password";
 		const BEARER_TOKEN_AUTH_ENABLED = "";
+		const JWT_JWKS_ARRAY = "";
 		const DB_CONNECTION_STRING =
 			"Server=localhost,1433;Database=database;User Id=username;Password=password;Encrypt=true";
 		const DB_LINKED_SERVER_NAME = "ENYH-FAKE";
@@ -81,6 +82,7 @@ describe("Configuration", () => {
 			ADMIN_USERNAME,
 			ADMIN_PASSWORD,
 			BEARER_TOKEN_AUTH_ENABLED,
+			JWT_JWKS_ARRAY,
 			DB_CONNECTION_STRING,
 			DB_LINKED_SERVER_NAME,
 			DB_LINKED_SERVER_USERNAME,
@@ -143,6 +145,8 @@ describe("Configuration", () => {
 
 		expect(config.bearerTokenAuthEnabled).toBe(false);
 
+		expect(config.jwt).toBeUndefined();
+
 		expect(config.database).toEqual({
 			connection: DB_CONNECTION_STRING,
 			linkedServer: {
@@ -178,6 +182,8 @@ describe("Configuration", () => {
 		const ADMIN_USERNAME = "admin";
 		const ADMIN_PASSWORD = "password";
 		const BEARER_TOKEN_AUTH_ENABLED = true;
+		const JWT_JWKS_ARRAY =
+			'[{"issuerDomain": "https://not-real-issuer.ydh.nhs.uk/auth/realms/SIDER", "allowedAudiences": "ydh", "allowedAlgorithms": ["RS256"], "maxAge": 90000}]';
 		const DB_CONNECTION_STRING =
 			"Server=localhost,1433;Database=database;User Id=username;Password=password;Encrypt=true";
 		const DB_LINKED_SERVER_NAME = "ENYH-FAKE";
@@ -204,6 +210,7 @@ describe("Configuration", () => {
 			ADMIN_USERNAME,
 			ADMIN_PASSWORD,
 			BEARER_TOKEN_AUTH_ENABLED,
+			JWT_JWKS_ARRAY,
 			DB_CONNECTION_STRING,
 			DB_LINKED_SERVER_NAME,
 			DB_LINKED_SERVER_USERNAME,
@@ -264,6 +271,8 @@ describe("Configuration", () => {
 		});
 
 		expect(config.bearerTokenAuthEnabled).toBe(true);
+
+		expect(config.jwt).toEqual(JSON.parse(JWT_JWKS_ARRAY));
 
 		expect(config.database).toEqual({
 			connection: DB_CONNECTION_STRING,

@@ -134,6 +134,9 @@ async function getConfig() {
 				S.anyOf([S.boolean().default(false), S.null()])
 			)
 
+			// JWT Validation
+			.prop("JWT_JWKS_ARRAY", S.anyOf([S.string(), S.null()]))
+
 			// Database Connection
 			.prop("DB_CONNECTION_STRING", S.string())
 			.prop("DB_LINKED_SERVER_NAME", S.string())
@@ -299,6 +302,10 @@ async function getConfig() {
 			},
 		},
 	};
+
+	if (env.JWT_JWKS_ARRAY) {
+		config.jwt = secJSON.parse(env.JWT_JWKS_ARRAY);
+	}
 
 	if (env.LOG_ROTATION_FILENAME) {
 		// Rotation options: https://github.com/rogerc/file-stream-rotator/#options
