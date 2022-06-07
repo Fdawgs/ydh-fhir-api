@@ -142,6 +142,38 @@ jobs:
                   parallel: true
                   flag-name: run-${{ matrix.node-version }}-${{ matrix.os }}
 
+    lint-docker-file:
+        name: Lint Dockerfile
+        if: github.event.pull_request.draft == false
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v3
+              with:
+                  persist-credentials: false
+
+            - name: Run Hadolint
+              uses: hadolint/hadolint-action@v2.1.0
+              with:
+                  dockerfile: Dockerfile
+                  ignore: DL3018
+
+    docker-compose-tests:
+        name: Docker Compose Build Tests
+        needs: lint-docker-file
+        if: github.event.pull_request.draft == false
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v3
+              with:
+                  persist-credentials: false
+
+            - name: Build and start app
+              run: |
+                  cp .env.template .env
+                  docker compose up -d
+
     coverage:
         name: Aggregate Coverage Calculations
         needs: unit-tests

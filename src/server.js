@@ -112,10 +112,14 @@ async function plugin(server, config) {
 			serializedContext
 				// Catch unsupported Accept header media types
 				.addHook("preValidation", async (req, res) => {
+					// TODO: types
 					if (
 						!req
 							.accepts()
-							.type(["application/json", "application/xml"])
+							.type([
+								"application/fhir+json",
+								"application/fhir+xml",
+							])
 					) {
 						throw res.notAcceptable();
 					}

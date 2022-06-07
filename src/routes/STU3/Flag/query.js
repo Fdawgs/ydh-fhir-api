@@ -6,59 +6,57 @@
  * @param {Array} options.whereClausePredicates - WHERE clause predicates.
  * @returns {string} Query string.
  */
-const flagGetSearch = ({ linkedServer, whereClausePredicates }) => `
+const stu3FlagGetSearch = ({ linkedServer, whereClausePredicates }) => `
 WITH
   flag_CTE
   AS
   (
-    SELECT DISTINCT flagId,
+    SELECT DISTINCT id,
       CASE ALM_Status
       WHEN 'I' THEN 'inactive'
       WHEN 'A' THEN 'active'
-      END AS flagStatusCode,
-      flagCategoryCodingDisplay,
-      flagCategoryCodingCode,
-      flagCodeCodingDisplay,
-      flagCodeCodingCode,
-      flagCodeText,
-      flagSubjectReference,
-      CONCAT(COALESCE(periodStartDate, ''),'T', COALESCE(periodStartTime, '')) AS periodStart,
-      CONCAT(COALESCE(periodEndDate, ''),'T00:00:00') AS periodEnd
+      END AS status,
+      category_coding_display,
+      category_coding_code,
+      code_coding_display,
+      code_coding_code,
+      subject_reference,
+      CONCAT(COALESCE(period_start_date, ''),'T', COALESCE(period_start_time, '')) AS period_start,
+      CONCAT(COALESCE(period_end_date, ''),'T', COALESCE(period_end_time, '')) AS period_end
     FROM OPENQUERY(
 		[${linkedServer}], 'SELECT DISTINCT
+            REPLACE(alert.ALM_RowID, ''||'', ''-'') AS id,
             ALM_Status,
-            COALESCE(ALM_OnsetDate, ALM_CreateDate) AS periodStartDate,
-            COALESCE(ALM_OnsetTime, ALM_CreateTime) AS periodStartTime,
-            COALESCE(ALM_ExpiryDate, ALM_ClosedDate) AS periodEndDate,
-            ALM_ClosedTime AS periodEndTime,
-            REPLACE(alert.ALM_RowID, ''||'', ''-'') AS flagId,
-            alert.ALM_Alert_DR->ALERT_Desc AS flagCodeCodingDisplay,
-            alert.ALM_Alert_DR->ALERT_Code AS flagCodeCodingCode,
-            alert.ALM_Message AS flagCodeText,
-            alert.ALM_AlertCategory_DR->ALERTCAT_Desc AS flagCategoryCodingDisplay,
-            alert.ALM_AlertCategory_DR->ALERTCAT_Code AS flagCategoryCodingCode,
-            alert.ALM_PAPMI_ParRef->PAPMI_No AS flagSubjectReference
+            alert.ALM_AlertCategory_DR->ALERTCAT_Desc AS category_coding_display,
+            alert.ALM_AlertCategory_DR->ALERTCAT_Code AS category_coding_code,
+            alert.ALM_Alert_DR->ALERT_Desc AS code_coding_display,
+            alert.ALM_Alert_DR->ALERT_Code AS code_coding_code,
+            COALESCE(ALM_OnsetDate, ALM_CreateDate) AS period_start_date,
+            COALESCE(ALM_OnsetTime, ALM_CreateTime) AS period_start_time,
+            COALESCE(ALM_ExpiryDate, ALM_ClosedDate) AS period_end_date,
+            ALM_ClosedTime AS period_end_time,
+            alert.ALM_PAPMI_ParRef->PAPMI_No AS subject_reference
         FROM PA_AlertMsg alert
        WHERE alert.ALM_Alert_DR IS NOT NULL
 	   ${whereClausePredicates?.[0] ? `AND ${whereClausePredicates[0]}` : ""}
          ')
   )
 SELECT flag_CTE.*,
-  snom.snomed_code AS flagCodeCodingSnomedCode,
-  snom.snomed_display AS flagCodeCodingSnomedDisplay,
+  snom.snomed_code AS code_coding_snomed_code,
+  snom.snomed_display AS code_coding_snomed_display,
   -- Every resource query must always have a lastUpdated column
   CASE
-       WHEN periodEnd > periodStart
-       THEN periodEnd
-       ELSE periodStart
-       END AS lastUpdated
+       WHEN period_end > period_start
+       THEN period_end
+       ELSE period_start
+       END AS last_updated
 FROM flag_CTE
   LEFT JOIN lookup.patient_alerts AS snom WITH (NOLOCK)
-  ON flag_CTE.flagCodeCodingCode = snom.trakcare_code
-WHERE flagStatusCode IS NOT NULL ${
+  ON flag_CTE.code_coding_code = snom.trakcare_code
+WHERE status IS NOT NULL ${
 	whereClausePredicates?.[1] ? `AND ${whereClausePredicates[1]}` : ""
 };`;
 
 module.exports = {
-	flagGetSearch,
+	stu3FlagGetSearch,
 };

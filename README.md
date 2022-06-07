@@ -22,7 +22,7 @@ Background information detailing the history and purpose of this API can be foun
 -   InterSystems IRIS ODBC35 ODBC Driver 2021
 -   InterSystems IRIS for Health 2020
 -   InterSystems TrakCare v2020
--   [Node.js](https://nodejs.org/en/) >=16.0.0
+-   [Node.js](https://nodejs.org/en/) >=16.0.0 (if running outside of Docker)
 -   [SQL Server](https://www.microsoft.com/en-gb/sql-server/sql-server-downloads) (As a Windows service/instance; SQL Server on Linux [does not support linked servers](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-editions-and-components-2019?view=sql-server-ver15#Unsupported))
 
 ## Setup
@@ -85,9 +85,15 @@ The service should be up and running on the port set in the config. You should s
 
 To quickly test it, use [Insomnia](https://insomnia.rest/) and import the example requests from `./test_resources/insomnia_test_requests.json`.
 
+### Deploying Using Docker
+
+This requires [Docker](https://www.docker.com) installed.
+
+1. Run `docker compose up` (or `docker compose up -d` to run in background)
+
 ### Deploying Using PM2
 
-It is recommended that you use a process manager such as [PM2](https://pm2.keymetrics.io/).
+If you are unable to deploy this into production using Docker, it is recommended that you use a process manager such as [PM2](https://pm2.keymetrics.io/).
 
 1. Run `npm ci --ignore-scripts --production` to install dependencies
 2. Run `npm i -g pm2` to install pm2 globally
