@@ -106,6 +106,11 @@ describe("Server Deployment", () => {
 	let token;
 
 	beforeAll(async () => {
+		Object.assign(process.env, {
+			DB_CONNECTION_STRING:
+				"Server=localhost,1433;Database=master;User Id=sa;Password=Password!;Encrypt=true;TrustServerCertificate=true;",
+		});
+
 		nock.disableNetConnect();
 
 		// Create an issuer that we have a valid JWT for
@@ -455,6 +460,14 @@ describe("Server Deployment", () => {
 					// Only applicable to "CORS Enabled" test
 					if (testObject.envVariables.CORS_ORIGIN === true) {
 						test("Should not set 'access-control-allow-origin' if configured to reflect 'origin' in request header, but 'origin' missing", async () => {
+							const mockQueryFn = jest
+								.fn()
+								.mockResolvedValue(testConsts.dbSTU3Flag);
+
+							server.db = {
+								query: mockQueryFn,
+							};
+
 							const response = await server.inject({
 								method: "GET",
 								url: "/STU3/Flag/126844-10",
@@ -539,8 +552,6 @@ describe("Server Deployment", () => {
 				HTTPS_SSL_CERT_PATH: "",
 				HTTPS_SSL_KEY_PATH: "",
 				HTTPS_HTTP2_ENABLED: "",
-				DB_CONNECTION_STRING:
-					"Server=localhost,1433;Database=master;User Id=sa;Password=Password!;Encrypt=true;TrustServerCertificate=true;",
 			});
 			config = await getConfig();
 
