@@ -534,8 +534,7 @@ describe("Server Deployment", () => {
 		});
 	});
 
-	// eslint-disable-next-line jest/no-disabled-tests
-	describe.skip("API Documentation Frontend", () => {
+	describe("API Documentation Frontend", () => {
 		let config;
 		let server;
 
