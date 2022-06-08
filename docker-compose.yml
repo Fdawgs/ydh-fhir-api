@@ -1,6 +1,6 @@
 services:
     app:
-        container_name: ydh-fhir-ap
+        container_name: ydh-fhir-api
         build:
             context: .
         deploy:
