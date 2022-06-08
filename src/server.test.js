@@ -907,23 +907,19 @@ describe("Server Deployment", () => {
 		});
 
 		describe("Content", () => {
-			describe("API Documentation", () => {
-				describe("/docs Route", () => {
-					test("Should return HTML", async () => {
-						const response = await server.inject({
-							method: "GET",
-							url: "/docs",
-							headers: {
-								accept: "text/html",
-							},
-						});
-
-						expect(isHtml(response.payload)).toBe(true);
-						expect(response.headers).toEqual(
-							expResHeadersHtmlStatic
-						);
-						expect(response.statusCode).toBe(200);
+			describe("/docs Route", () => {
+				test("Should return HTML", async () => {
+					const response = await server.inject({
+						method: "GET",
+						url: "/docs",
+						headers: {
+							accept: "text/html",
+						},
 					});
+
+					expect(isHtml(response.payload)).toBe(true);
+					expect(response.headers).toEqual(expResHeadersHtmlStatic);
+					expect(response.statusCode).toBe(200);
 				});
 			});
 		});
