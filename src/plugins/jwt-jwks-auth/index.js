@@ -24,7 +24,7 @@ async function plugin(server, options) {
 	server.decorate("verifyJWT", async (req, res) => {
 		const header = req.headers.authorization;
 		if (!header) {
-			res.badRequest("Missing authorization header");
+			res.unauthorized("missing authorization header");
 		}
 
 		// Remove 'Bearer' from beginning of token
