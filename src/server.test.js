@@ -321,7 +321,7 @@ describe("Server Deployment", () => {
 		];
 
 		authTests.forEach((testObject) => {
-			describe(`End-To-End - ${testObject.testName}`, () => {
+			describe(`${testObject.testName}`, () => {
 				beforeAll(async () => {
 					Object.assign(process.env, testObject.envVariables);
 					config = await getConfig();
@@ -685,7 +685,7 @@ describe("Server Deployment", () => {
 		];
 
 		corsTests.forEach((testObject) => {
-			describe(`End-To-End - ${testObject.testName}`, () => {
+			describe(`${testObject.testName}`, () => {
 				beforeAll(async () => {
 					Object.assign(process.env, testObject.envVariables);
 					config = await getConfig();
