@@ -119,6 +119,8 @@ async function plugin(server, config) {
 							.type([
 								"application/fhir+json",
 								"application/fhir+xml",
+								"application/json",
+								"application/xml",
 							])
 					) {
 						throw res.notAcceptable();
