@@ -30,4 +30,4 @@ Clients using the web app need to be able to make GET requests to RESTful HL7® 
 
 ## Original Development
 
-These APIs were originally built and deployed using a combination of [Mirth Connect channels](https://github.com/Fdawgs/ydh-fhir-listeners) and a Node.js [authentication service}(https://github.com/Fdawgs/ydh-fhir-authentication-service) that acted as middleware. However, Mirth Connect has its limitations (poor E2E and unit testing support; difficult to extend etc.) and it was decided to rewrite the APIs fully in Node.js.
+These APIs were originally built and deployed using a combination of [Mirth Connect channels](https://github.com/Fdawgs/ydh-fhir-listeners) and a Node.js [authentication service](https://github.com/Fdawgs/ydh-fhir-authentication-service) that acted as middleware. However, Mirth Connect has its limitations (poor E2E and unit testing support; difficult to extend etc.) and it was decided to rewrite the APIs fully in Node.js.
