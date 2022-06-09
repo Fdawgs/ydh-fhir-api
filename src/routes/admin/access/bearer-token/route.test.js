@@ -329,7 +329,7 @@ describe("Access Route", () => {
 				url: "/",
 				query: {
 					"access.expires": [testDate1, testDate2],
-					"access.scopes": ["all"],
+					"access.scopes": ["all", "test"],
 					"meta.created": [testDate1, testDate2],
 					"meta.last_updated": [testDate1, testDate2],
 				},
