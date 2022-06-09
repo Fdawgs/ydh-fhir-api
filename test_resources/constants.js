@@ -1,3 +1,5 @@
+const dbError = { recordsets: [[]] };
+
 const dbSTU3Flag = {
 	recordsets: [
 		[
@@ -20,5 +22,6 @@ const dbSTU3Flag = {
 };
 
 module.exports = {
+	dbError,
 	dbSTU3Flag,
 };

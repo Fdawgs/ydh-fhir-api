@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+const { faker } = require("@faker-js/faker/locale/en_GB");
 const { chromium, firefox } = require("playwright");
 const crypto = require("crypto");
 const Fastify = require("fastify");
@@ -9,7 +9,7 @@ const startServer = require("./server");
 const getConfig = require("./config");
 const testConsts = require("../test_resources/constants");
 
-// TODO: Add test response, then mock resolve it for STU3/Flag tests
+const testId = faker.datatype.uuid();
 
 const testAccessToken = `ydhfhir_${crypto.randomUUID().replace(/-/g, "_")}`;
 
@@ -18,7 +18,18 @@ const testHash = crypto
 	.scryptSync(testAccessToken, testSalt, 64)
 	.toString("hex");
 
-const testScopes = ["all"];
+const dbHashedBearerToken = {
+	recordsets: [
+		[
+			{
+				name: faker.commerce.productName(),
+				salt: testSalt,
+				hash: testHash,
+				scopes: JSON.stringify(["all"]),
+			},
+		],
+	],
+};
 
 // Expected Response Headers
 const expResHeaders = {
@@ -90,6 +101,7 @@ const expResHeadersText = {
 	"content-type": expect.stringContaining("text/plain"),
 };
 
+// eslint-disable-next-line no-unused-vars
 const expResHeadersXml = {
 	...expResHeaders,
 	"content-security-policy":
@@ -152,6 +164,352 @@ describe("Server Deployment", () => {
 		await mockJwksServerTwo.stop();
 	});
 
+	describe("Basic Auth", () => {
+		let config;
+		let server;
+
+		beforeAll(async () => {
+			Object.assign(process.env, {
+				ADMIN_USERNAME: "admin",
+				ADMIN_PASSWORD: "password",
+			});
+			config = await getConfig();
+
+			server = Fastify();
+			server.register(startServer, config);
+
+			await server.ready();
+		});
+
+		afterAll(async () => {
+			await server.close();
+		});
+
+		describe("/admin/access/bearer-token/:id Route", () => {
+			const basicAuthTests = [
+				{
+					testName: "basic auth username invalid",
+					authString: "invalidadmin:password",
+				},
+				{
+					testName: "basic auth password invalid",
+					authString: "admin:invalidpassword",
+				},
+				{
+					testName: "basic auth username and password invalid",
+					authString: "invalidadmin:invalidpassword",
+				},
+			];
+
+			basicAuthTests.forEach((testObject) => {
+				test(`Should return HTTP status code 401 if ${testObject.testName}`, async () => {
+					const response = await server.inject({
+						method: "GET",
+						url: `/admin/access/bearer-token/${testId}`,
+						headers: {
+							authorization: `Basic ${Buffer.from(
+								`${testObject.authString}`
+							).toString("base64")}`,
+						},
+					});
+
+					expect(JSON.parse(response.payload)).toEqual({
+						error: "Unauthorized",
+						message: "Unauthorized",
+						statusCode: 401,
+					});
+					expect(response.headers).toEqual({
+						...expResHeadersJson,
+						vary: "accept-encoding",
+					});
+					expect(response.statusCode).toBe(401);
+				});
+			});
+
+			test("Should return response if basic auth username and password valid", async () => {
+				const response = await server.inject({
+					method: "GET",
+					url: `/admin/access/bearer-token/${testId}`,
+					headers: {
+						accept: "application/json",
+						authorization: `Basic ${Buffer.from(
+							"admin:password"
+						).toString("base64")}`,
+					},
+				});
+
+				expect(response.headers).toEqual(expResHeadersJson);
+				expect(response.statusCode).not.toBe(401);
+				expect(response.statusCode).not.toBe(406);
+			});
+
+			test("Should return HTTP status code 406 if basic auth username and password valid, and media type in `Accept` request header is unsupported", async () => {
+				const response = await server.inject({
+					method: "GET",
+					url: "/admin/access/bearer-token",
+					headers: {
+						accept: "application/javascript",
+						authorization: `Basic ${Buffer.from(
+							"admin:password"
+						).toString("base64")}`,
+					},
+				});
+
+				expect(JSON.parse(response.payload)).toEqual({
+					error: "Not Acceptable",
+					message: "Not Acceptable",
+					statusCode: 406,
+				});
+				expect(response.headers).toEqual(expResHeadersJson);
+				expect(response.statusCode).toBe(406);
+			});
+		});
+	});
+
+	describe("Bearer and JWT Auth", () => {
+		let config;
+		let server;
+		let currentEnv;
+
+		beforeAll(async () => {
+			Object.assign(process.env, {
+				BEARER_TOKEN_AUTH_ENABLED: "",
+				JWT_JWKS_ARRAY: "",
+			});
+			currentEnv = { ...process.env };
+		});
+
+		afterEach(async () => {
+			// Reset the process.env to default after each test
+			Object.assign(process.env, currentEnv);
+
+			await server.close();
+		});
+
+		const authTests = [
+			{
+				testName: "Bearer Token Auth Enabled and JWKS JWT Auth Enabled",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: true,
+					JWT_JWKS_ARRAY: `[{"issuerDomain": "${validIssuerUri}"}]`,
+				},
+			},
+			{
+				testName:
+					"Bearer Token Auth Enabled and JWKS JWT Auth Disabled",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: true,
+					JWT_JWKS_ARRAY: "",
+				},
+			},
+			{
+				testName:
+					"Bearer Token Auth Disabled and JWKS JWT Auth Enabled With One JWKS Endpoint",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: "",
+					JWT_JWKS_ARRAY: `[{"issuerDomain": "${validIssuerUri}"}]`,
+				},
+			},
+			{
+				testName:
+					"Bearer Token Auth Disabled and JWKS JWT Auth Enabled With One JWKS Endpoint with different aud",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: "",
+					JWT_JWKS_ARRAY: `[{"issuerDomain": "${validIssuerUri}", "allowedAudiences": "ydh"}]`,
+				},
+			},
+			{
+				testName:
+					"Bearer Token Auth Disabled and Jwks Jwt Auth Enabled With Two Jwks Endpoints (With Valid Key for One)",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: "",
+					JWT_JWKS_ARRAY: `[{"issuerDomain": "${validIssuerUri}"},{"issuerDomain": "${invalidIssuerUri}"}]`,
+				},
+			},
+
+			{
+				testName:
+					"Bearer Token Auth Disabled and Jwks Jwt Auth Enabled With One Jwks Endpoint (With an Invalid Key)",
+				envVariables: {
+					BEARER_TOKEN_AUTH_ENABLED: "",
+					JWT_JWKS_ARRAY: `[{"issuerDomain": "${invalidIssuerUri}"}]`,
+				},
+			},
+		];
+
+		authTests.forEach((testObject) => {
+			describe(`${testObject.testName}`, () => {
+				beforeAll(async () => {
+					Object.assign(process.env, testObject.envVariables);
+					config = await getConfig();
+				});
+
+				beforeEach(async () => {
+					server = Fastify();
+					server.register(startServer, config);
+					await server.ready();
+				});
+
+				describe("/STU3/Flag Route", () => {
+					if (
+						testObject?.envVariables?.BEARER_TOKEN_AUTH_ENABLED ===
+						true
+					) {
+						test("Should return HL7 FHIR STU3 Flag Resource using a valid bearer token", async () => {
+							const mockQueryFn = jest
+								.fn()
+								.mockResolvedValueOnce(dbHashedBearerToken)
+								.mockResolvedValueOnce(testConsts.dbSTU3Flag);
+
+							server.db = {
+								query: mockQueryFn,
+							};
+
+							const response = await server.inject({
+								method: "GET",
+								url: "/STU3/Flag/126844-10",
+								headers: {
+									accept: "application/fhir+json",
+									authorization: `Bearer ${testAccessToken}`,
+								},
+							});
+
+							expect(JSON.parse(response.payload)).toHaveProperty(
+								"resourceType",
+								"Flag"
+							);
+							expect(response.headers).toEqual(expResHeadersFhir);
+							expect(response.statusCode).toBe(200);
+						});
+					}
+
+					test("Should fail to return HL7 FHIR STU3 Flag Resource using an invalid bearer token/JWT", async () => {
+						const mockQueryFn = jest
+							.fn()
+							.mockResolvedValue(testConsts.dbError);
+
+						server.db = {
+							query: mockQueryFn,
+						};
+
+						const response = await server.inject({
+							method: "GET",
+							url: "/STU3/Flag/126844-10",
+							headers: {
+								accept: "application/fhir+json",
+								authorization: "Bearer invalidtoken",
+							},
+						});
+
+						expect(JSON.parse(response.payload)).toEqual({
+							error: "Unauthorized",
+							message: "invalid authorization header",
+							statusCode: 401,
+						});
+						expect(response.headers).toEqual(expResHeadersJson);
+						expect(response.statusCode).toBe(401);
+					});
+
+					test("Should fail to return HL7 FHIR STU3 Flag Resource if bearer token/JWT is missing", async () => {
+						const mockQueryFn = jest
+							.fn()
+							.mockResolvedValue(testConsts.dbError);
+
+						server.db = {
+							query: mockQueryFn,
+						};
+
+						const response = await server.inject({
+							method: "GET",
+							url: "/STU3/Flag/126844-10",
+							headers: {
+								accept: "application/fhir+json",
+							},
+						});
+
+						expect(JSON.parse(response.payload)).toEqual({
+							error: "Unauthorized",
+							message: "missing authorization header",
+							statusCode: 401,
+						});
+						expect(response.headers).toEqual(expResHeadersJson);
+						expect(response.statusCode).toBe(401);
+					});
+
+					if (
+						testObject?.envVariables?.JWT_JWKS_ARRAY !== "" &&
+						testObject?.envVariables?.JWT_JWKS_ARRAY !==
+							`[{"issuerDomain": "${invalidIssuerUri}"}]` &&
+						testObject?.envVariables?.JWT_JWKS_ARRAY !==
+							`[{"issuerDomain": "${validIssuerUri}", "allowedAudiences": "ydh"}]`
+					) {
+						test("Should return HL7 FHIR STU3 Flag Resource using valid JWT against a valid Issuer", async () => {
+							const mockQueryFn = jest
+								.fn()
+								.mockResolvedValue(testConsts.dbSTU3Flag);
+
+							server.db = {
+								query: mockQueryFn,
+							};
+
+							const response = await server.inject({
+								method: "GET",
+								url: "/STU3/Flag/126844-10",
+								headers: {
+									accept: "application/fhir+json",
+									authorization: `Bearer ${token}`,
+								},
+							});
+
+							expect(JSON.parse(response.payload)).toHaveProperty(
+								"resourceType",
+								"Flag"
+							);
+							expect(response.headers).toEqual(expResHeadersFhir);
+							expect(response.statusCode).toBe(200);
+						});
+					}
+
+					if (
+						testObject?.envVariables?.JWT_JWKS_ARRAY === "" ||
+						testObject?.envVariables?.JWT_JWKS_ARRAY ===
+							`[{"issuerDomain": "${invalidIssuerUri}"}]` ||
+						testObject?.envVariables?.JWT_JWKS_ARRAY ===
+							`[{"issuerDomain": "${validIssuerUri}", "allowedAudiences": "ydh"}]`
+					) {
+						test("Should fail to return HL7 FHIR STU3 Flag Resource using valid JWT against a invalid Issuer", async () => {
+							const mockQueryFn = jest
+								.fn()
+								.mockResolvedValueOnce(dbHashedBearerToken)
+								.mockResolvedValueOnce(testConsts.dbSTU3Flag);
+
+							server.db = {
+								query: mockQueryFn,
+							};
+
+							const response = await server.inject({
+								method: "GET",
+								url: "/STU3/Flag/126844-10",
+								headers: {
+									accept: "application/fhir+json",
+									authorization: `Bearer ${token}`,
+								},
+							});
+
+							expect(JSON.parse(response.payload)).toEqual({
+								error: "Unauthorized",
+								message: "invalid authorization header",
+								statusCode: 401,
+							});
+							expect(response.headers).toEqual(expResHeadersJson);
+							expect(response.statusCode).toBe(401);
+						});
+					}
+				});
+			});
+		});
+	});
+
 	describe("CORS", () => {
 		let config;
 		let server;
@@ -159,7 +517,7 @@ describe("Server Deployment", () => {
 
 		beforeAll(async () => {
 			Object.assign(process.env, {
-				AUTH_BEARER_TOKEN_ARRAY: "",
+				BEARER_TOKEN_AUTH_ENABLED: "",
 				JWT_JWKS_ARRAY: "",
 			});
 			currentEnv = { ...process.env };
@@ -344,7 +702,7 @@ describe("Server Deployment", () => {
 		];
 
 		corsTests.forEach((testObject) => {
-			describe(`End-To-End - ${testObject.testName}`, () => {
+			describe(`${testObject.testName}`, () => {
 				beforeAll(async () => {
 					Object.assign(process.env, testObject.envVariables);
 					config = await getConfig();
@@ -534,7 +892,7 @@ describe("Server Deployment", () => {
 		});
 	});
 
-	describe("API Documentation Frontend", () => {
+	describe("API Documentation", () => {
 		let config;
 		let server;
 
@@ -565,32 +923,52 @@ describe("Server Deployment", () => {
 			await server.close();
 		});
 
-		afterEach(async () => {
-			await page.close();
-			await browser.close();
+		describe("Content", () => {
+			describe("/docs Route", () => {
+				test("Should return HTML", async () => {
+					const response = await server.inject({
+						method: "GET",
+						url: "/docs",
+						headers: {
+							accept: "text/html",
+						},
+					});
+
+					expect(isHtml(response.payload)).toBe(true);
+					expect(response.headers).toEqual(expResHeadersHtmlStatic);
+					expect(response.statusCode).toBe(200);
+				});
+			});
 		});
 
-		// Webkit not tested as it is flakey in context of Playwright
-		const browsers = [chromium, firefox];
-		browsers.forEach((browserType) => {
-			test(`Should render docs page without error components - ${browserType.name()}`, async () => {
-				browser = await browserType.launch();
-				page = await browser.newPage();
+		describe("Frontend", () => {
+			afterEach(async () => {
+				await page.close();
+				await browser.close();
+			});
 
-				await page.goto("http://localhost:8204/docs");
-				expect(await page.title()).toBe(
-					"HL7® FHIR® API | Documentation"
-				);
-				/**
-				 * Checks redoc has not rendered an error component
-				 * https://github.com/Redocly/redoc/blob/master/src/components/ErrorBoundary.tsx
-				 */
-				const heading = page.locator("h1 >> nth=0");
-				await heading.waitFor();
+			// Webkit not tested as it is flakey in context of Playwright
+			const browsers = [chromium, firefox];
+			browsers.forEach((browserType) => {
+				test(`Should render docs page without error components - ${browserType.name()}`, async () => {
+					browser = await browserType.launch();
+					page = await browser.newPage();
 
-				expect(await heading.textContent()).not.toEqual(
-					expect.stringMatching(/something\s*went\s*wrong/i)
-				);
+					await page.goto("http://localhost:8204/docs");
+					expect(await page.title()).toBe(
+						"HL7® FHIR® API | Documentation"
+					);
+					/**
+					 * Checks redoc has not rendered an error component
+					 * https://github.com/Redocly/redoc/blob/master/src/components/ErrorBoundary.tsx
+					 */
+					const heading = page.locator("h1 >> nth=0");
+					await heading.waitFor();
+
+					expect(await heading.textContent()).not.toEqual(
+						expect.stringMatching(/something\s*went\s*wrong/i)
+					);
+				});
 			});
 		});
 	});

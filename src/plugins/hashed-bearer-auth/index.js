@@ -12,11 +12,13 @@ const secJSON = require("secure-json-parse");
 async function plugin(server) {
 	server.register(bearer, {
 		addHook: false,
-		errorResponse: (err) => ({
-			statusCode: 401,
-			error: "Unauthorized",
-			message: err.message,
-		}),
+		errorResponse:
+			/* istanbul ignore next: @fastify/auth handles errors, response set for posterity */
+			(err) => ({
+				statusCode: 401,
+				error: "Unauthorized",
+				message: err.message,
+			}),
 		auth: async (key, req) => {
 			const results = await server.db.query(
 				`SELECT DISTINCT
