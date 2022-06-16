@@ -33,11 +33,7 @@ async function plugin(server) {
                 WHERE expires > CURRENT_TIMESTAMP`
 			);
 
-			/**
-			 * Database client packages return results in different structures,
-			 * (mssql uses recordsets, pg uses rows) thus the optional chaining
-			 */
-			const tokens = results?.recordsets?.[0] ?? results?.rows;
+			const tokens = results?.recordsets?.[0];
 
 			const authorized = await Promise.any(
 				tokens.map((token) =>
@@ -51,10 +47,7 @@ async function plugin(server) {
 				)
 			)
 				.then((token) => {
-					req.scopes =
-						typeof token.scopes === "string"
-							? secJSON.parse(token.scopes)
-							: token.scopes;
+					req.scopes = secJSON.parse(token.scopes);
 
 					req.log.info({ client: token.name });
 					return true;
