@@ -36,13 +36,15 @@ Perform the following steps before deployment:
 5. Install InterSystems IRIS ODBC35 ODBC Driver
 6. Follow the InterSystems documentation for [Defining an ODBC Data Source on Windows](https://docs.intersystems.com/irislatest/csp/docbook/DocBook.UI.Page.cls?KEY=BNETODBC_winodbc) as a System DSN
 
-**Note:** You will need to create a database before using it in the `DB_CONNECTION_STRING` environment variable
+> **Note**
+> You will need to create a database before using it in the `DB_CONNECTION_STRING` environment variable (this does not apply if using the included Docker Compose file to deploy)
 
-**Note:** Set the following environment variables in `.env` to meet NHS Digital's recommendation to retain 6 months' worth of logs:
-
--   `LOG_ROTATION_DATE_FORMAT="YYYY-MM-DD"`
--   `LOG_ROTATION_FREQUENCY="daily"`
--   `LOG_ROTATION_MAX_LOGS="180"`
+> **Note**
+> Set the following environment variables in `.env` to meet NHS Digital's recommendation to retain 6 months' worth of logs:
+>
+> -   `LOG_ROTATION_DATE_FORMAT="YYYY-MM-DD"`
+> -   `LOG_ROTATION_FREQUENCY="daily"`
+> -   `LOG_ROTATION_MAX_LOGS="180"`
 
 ## Deployment
 
@@ -104,7 +106,8 @@ If you are unable to deploy this into production using Docker, it is recommended
 
 If using a Microsoft Windows OS utilise [pm2-installer](https://github.com/jessety/pm2-installer) to install PM2 as a Windows service.
 
-**Note:** PM2 will automatically restart the application if `.env` is modified.
+> **Note**
+> PM2 will automatically restart the application if `.env` is modified.
 
 ## Known Issues and Caveats
 

@@ -27,6 +27,13 @@ const dbHashedBearerToken = {
 				hash: testHash,
 				scopes: JSON.stringify(["all"]),
 			},
+			// Tests "No match" error thrown in hashed-bearer-auth plugin
+			{
+				name: faker.commerce.productName(),
+				salt: testSalt,
+				hash: "brown",
+				scopes: JSON.stringify(["all"]),
+			},
 		],
 	],
 };

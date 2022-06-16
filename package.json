@@ -25,7 +25,7 @@
 		"prepare": "husky install",
 		"start": "node .",
 		"start:migrate": "node ./src/migrate.js && node .",
-		"start:dev": "nodemon",
+		"start:dev": "nodemon | pino-pretty",
 		"test": "npm run lint && npm run jest",
 		"test:db:mssql:build": "docker run -p 1433:1433 --name ydh-fhir-api-mssql -e ACCEPT_EULA=Y -e SA_PASSWORD=Password! -e MSSQL_PID=Express -d mcr.microsoft.com/mssql/server:2019-latest",
 		"test:db:mssql:down": "docker stop ydh-fhir-api-mssql",
@@ -87,8 +87,9 @@
 		"mock-jwks": "^1.0.3",
 		"nock": "^13.2.6",
 		"nodemon": "^2.0.16",
+		"pino-pretty": "^8.0.0",
 		"playwright": "^1.22.2",
-		"prettier": "2.6.2"
+		"prettier": "^2.6.2"
 	},
 	"dependencies": {
 		"@fastify/accepts": "^3.0.0",
@@ -117,7 +118,6 @@
 		"js2xmlparser": "^4.0.2",
 		"mssql": "^8.1.2",
 		"pino": "^8.0.0",
-		"pino-pretty": "^8.0.0",
 		"postgrator": "^5.0.1",
 		"redoc": "^2.0.0-rc.72",
 		"secure-json-parse": "^2.4.0",
