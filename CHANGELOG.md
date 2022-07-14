@@ -1,0 +1,181 @@
+# Changelog
+
+## 1.0.0 (2022-07-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **plugins/jwt-jwks-auth:** obtain jwks_uri from openid endpoint
+* scrypt now used for hashing stored bearer tokens
+
+### Features
+
+* add basic route and queries; add migrations ([#11](https://github.com/Fdawgs/ydh-fhir-api/issues/11)) ([24af6d6](https://github.com/Fdawgs/ydh-fhir-api/commit/24af6d6199ac9b45d905e4fea4251e5b2335f5b2))
+* add basic stu3 flag route ([f69e887](https://github.com/Fdawgs/ydh-fhir-api/commit/f69e887d99e73dbba4abbcdcbf5fea59b67c4eac))
+
+
+### Bug Fixes
+
+* **plugins/jwt-jwks-auth:** respond with 401 error on missing header ([42541b0](https://github.com/Fdawgs/ydh-fhir-api/commit/42541b09337b5737fef693bc8e8017598d44a2ed))
+* **plugins/serialize-json-to-xml:** 204 resps do not have content types ([7a1c825](https://github.com/Fdawgs/ydh-fhir-api/commit/7a1c82598164a377f33bc1ad8bd483727dc5277a))
+* **routes:** time and timezone suffix are case-sensitive ([42a23e3](https://github.com/Fdawgs/ydh-fhir-api/commit/42a23e34d430d0b3f735793c5a7e68d5dcea0395))
+* **routes:** timestamptz data type does not support `YYYY` patterns ([0234e04](https://github.com/Fdawgs/ydh-fhir-api/commit/0234e041aa1b197c6b4cadb5363779656dbab364))
+
+
+### Continuous Integration
+
+* add dependency-review job ([6f2f2c7](https://github.com/Fdawgs/ydh-fhir-api/commit/6f2f2c712dafddfc375cc975f35b4849ef3d114b))
+* **automerge:** fix context ([fc73b47](https://github.com/Fdawgs/ydh-fhir-api/commit/fc73b474c5bba2a3d4f44ea3520c294ec1a8b0ef))
+* **cd:** update org name for release-please-action ([70a8d9e](https://github.com/Fdawgs/ydh-fhir-api/commit/70a8d9eb439cf53d0fef329df663acd701a2363d))
+* check `user.login` is dependabot instead of `actor` ([82c2c01](https://github.com/Fdawgs/ydh-fhir-api/commit/82c2c012133b0b8bc914650838ff8f8a7ed62087))
+* **ci:** add node 18 to test matrix ([#51](https://github.com/Fdawgs/ydh-fhir-api/issues/51)) ([679b867](https://github.com/Fdawgs/ydh-fhir-api/commit/679b86731347400b75f651ec46ce4a90623bf651))
+* **ci:** require `unit-tests` job to pass for `save-pr-number` job to run ([9881de0](https://github.com/Fdawgs/ydh-fhir-api/commit/9881de0fd576017f88f0fb6586d62c63a6021a9d))
+* **ci:** use `lts/*` for node setup in lint job ([6049213](https://github.com/Fdawgs/ydh-fhir-api/commit/604921314e03e19f4e334165078cec37bf208474))
+* **ci:** use `node-version` for node matrix key ([2bad596](https://github.com/Fdawgs/ydh-fhir-api/commit/2bad59627bf2ed21c59ae0d7f9c75385efe2ada0))
+* **codeql:** only run on pr changes to `.html`, `.js`, and `.yml` files ([2c19d3e](https://github.com/Fdawgs/ydh-fhir-api/commit/2c19d3e843f01159717726ce8c96e669a6249bf4))
+* **codeql:** resolve missing analyses ([96fa85a](https://github.com/Fdawgs/ydh-fhir-api/commit/96fa85aaf03e6a78c4d8629620e1e1b9bc653e08))
+* **codeql:** specify which files to scan during analysis ([779a4e6](https://github.com/Fdawgs/ydh-fhir-api/commit/779a4e6ebb623ad7cb0c5ce0ed3150ba14d28c3b))
+* **link-check:** replace `npx linkinator` call with github action ([de77969](https://github.com/Fdawgs/ydh-fhir-api/commit/de779696314709b946c7221818082293a297150a))
+* only trigger dependency-review on pr ([4268fc8](https://github.com/Fdawgs/ydh-fhir-api/commit/4268fc8ca5e615297960c74937f81e63968fc588))
+* re-add docker tests ([67a5666](https://github.com/Fdawgs/ydh-fhir-api/commit/67a56660ed9094520e0958883813535f394a4e36))
+* reduce workflow permissions to minimum ([8617110](https://github.com/Fdawgs/ydh-fhir-api/commit/86171100582656757a7acfb1fd983b4188c958c3))
+* remove git credentials after checkout ([#54](https://github.com/Fdawgs/ydh-fhir-api/issues/54)) ([97b6700](https://github.com/Fdawgs/ydh-fhir-api/commit/97b67000ac1962e63ec6a61b5e7836661dec395e))
+* replace workflow-run-cleanup-action with github concurrency ([f75df22](https://github.com/Fdawgs/ydh-fhir-api/commit/f75df225d0a9076f1509d60c2711cacf28e911d7))
+* use shorter arg aliases for lockfile lint step ([de31121](https://github.com/Fdawgs/ydh-fhir-api/commit/de31121ef5cb034d003370ce7f67e3a8dabbdbb6))
+* validate that resolved url matches the package name ([a68bb72](https://github.com/Fdawgs/ydh-fhir-api/commit/a68bb7256ebbbc1b351b493ed5f4410c6cb5a466))
+
+
+### Improvements
+
+* access `fs/promises` api via newer route ([d330ac2](https://github.com/Fdawgs/ydh-fhir-api/commit/d330ac2ebfa89e294fcf5b4e816af033da059adf))
+* **config:** replace `forEach()` with `map()` ([#55](https://github.com/Fdawgs/ydh-fhir-api/issues/55)) ([25f337b](https://github.com/Fdawgs/ydh-fhir-api/commit/25f337b86c3dd523fdd7c71d13b9646344240354))
+* **plugins/hashed-bearer-auth:** replace blocking `for()` loop ([59feee4](https://github.com/Fdawgs/ydh-fhir-api/commit/59feee47f1dab8d79ca1b435458a2b70cc246733))
+* **plugins/jwt-jwks-auth:** obtain jwks_uri from openid endpoint ([ab64260](https://github.com/Fdawgs/ydh-fhir-api/commit/ab64260393a00ba51ad6270113f802d897d72348))
+* **plugins/jwt-jwks-auth:** remove `await` in `Promise.any()` ([75e084c](https://github.com/Fdawgs/ydh-fhir-api/commit/75e084c4a170a793b0028b7480571a2861e856c4))
+* replace pbkdf2 with scrypt ([#57](https://github.com/Fdawgs/ydh-fhir-api/issues/57)) ([0c440e4](https://github.com/Fdawgs/ydh-fhir-api/commit/0c440e40fbc8f8bf1f5a075663c1c80125637f33))
+
+
+### Miscellaneous
+
+* **.eslintrc:** enable `plugin:jest/style` rules ([0a3cdda](https://github.com/Fdawgs/ydh-fhir-api/commit/0a3cddaf89898901cba9809065325b2622977964))
+* **.github/codeql-config:** remove quotation marks ([0c03109](https://github.com/Fdawgs/ydh-fhir-api/commit/0c03109fa61f10784245e21cbecb743d349b95ab))
+* **.github/funding:** remove comments ([3fc1cc2](https://github.com/Fdawgs/ydh-fhir-api/commit/3fc1cc27c23754e2effc2503a4d283f354c4b13f))
+* **.github/workflows/link-check:** use `skip` input ([31f6f75](https://github.com/Fdawgs/ydh-fhir-api/commit/31f6f75549c2a4f582310ed2449a5eafe65cc9a1))
+* **.github:** add `FUNDING.yml` ([cafb845](https://github.com/Fdawgs/ydh-fhir-api/commit/cafb84585d0ffa08f124efa57f38070d976d232b))
+* **.github:** fix `FUNDING.yml` again ([dae632f](https://github.com/Fdawgs/ydh-fhir-api/commit/dae632f5a9a0aa1135579d5aca6c2422a61a6142))
+* **.github:** fix `FUNDING.yml` structure ([b1d70bb](https://github.com/Fdawgs/ydh-fhir-api/commit/b1d70bb0dd912b10bf44dc71bcd17a707a54ca20))
+* **.gitignore:** use latest github ignore template ([83200db](https://github.com/Fdawgs/ydh-fhir-api/commit/83200dbedf3eed105ebe67a70faf9a54237308c2))
+* **.prettierignore:** add new paths from `.gitignore` ([9fb954e](https://github.com/Fdawgs/ydh-fhir-api/commit/9fb954ef05b6a9b599f435e1f4553ca9bb6d8ae4))
+* add scaffolding for app ([#7](https://github.com/Fdawgs/ydh-fhir-api/issues/7)) ([cb1a9f7](https://github.com/Fdawgs/ydh-fhir-api/commit/cb1a9f7d10ee26a6f927c51ba923f74bf6c5fd67))
+* add supporting files ([7e6c808](https://github.com/Fdawgs/ydh-fhir-api/commit/7e6c808314a79c9abd99d77d0f6382b8b719d375))
+* **bug_report:** use node 18 as placeholder for `node-version` ([c3d4410](https://github.com/Fdawgs/ydh-fhir-api/commit/c3d4410a9dde9dc66e780bfb5cd7bfd43ff70b0f))
+* **ci:** remove quotation marks from step name ([21bb03d](https://github.com/Fdawgs/ydh-fhir-api/commit/21bb03d45b2d9f6fb214fb2d0d3619885da7840a))
+* re-add docker support ([cd6a2ee](https://github.com/Fdawgs/ydh-fhir-api/commit/cd6a2eeb2cb62cb8cc55256fb94b3cef1d29acbe))
+* remove leftover postgres bits ([f17cfeb](https://github.com/Fdawgs/ydh-fhir-api/commit/f17cfeb0ed0187891a33adbfe8705959f4559dba))
+* remove redundant eslint comments ([f3e0351](https://github.com/Fdawgs/ydh-fhir-api/commit/f3e035142d080acb1277ba77aaf33e700007d892))
+* **server:** add missing asterisk to inline comment block ([85f93e2](https://github.com/Fdawgs/ydh-fhir-api/commit/85f93e2483eb1f8d0ced884842024b2081ef811c))
+* **server:** fix inline comment ([f55128c](https://github.com/Fdawgs/ydh-fhir-api/commit/f55128cb0e641d968a2b95d548b5e673afcf2140))
+* **server:** use optional chaining for error message logging ([025f06c](https://github.com/Fdawgs/ydh-fhir-api/commit/025f06c45bf6c9d9e761e038de1f4bb61f5259f5))
+* tidy ([1f7d0d8](https://github.com/Fdawgs/ydh-fhir-api/commit/1f7d0d8dd466f50308f2b5736191277f9e5cad7a))
+* use npm install alias ([7047f7d](https://github.com/Fdawgs/ydh-fhir-api/commit/7047f7da613a7ac6b867e3b8101b489714d1bf06))
+
+
+### Dependencies
+
+* **dependabot:** increase `open-pull-requests-limit` from 5 to 20 ([92844a2](https://github.com/Fdawgs/ydh-fhir-api/commit/92844a2fc022b689f8e06f9f39f5f2198eca7f70))
+* **deps-dev:** add missing caret range for prettier ([63cc78b](https://github.com/Fdawgs/ydh-fhir-api/commit/63cc78b9fbae9cb8dae66f0441595211b8df9704))
+* **deps-dev:** bump @commitlint/cli from 16.2.3 to 16.2.4 ([#19](https://github.com/Fdawgs/ydh-fhir-api/issues/19)) ([14c1c83](https://github.com/Fdawgs/ydh-fhir-api/commit/14c1c833906b0238a3d445654cdd8172c16f56be))
+* **deps-dev:** bump @commitlint/cli from 16.2.4 to 17.0.2 ([#65](https://github.com/Fdawgs/ydh-fhir-api/issues/65)) ([480f9b1](https://github.com/Fdawgs/ydh-fhir-api/commit/480f9b1dd063c19ca8f046fe6e95e490a9421426))
+* **deps-dev:** bump @commitlint/cli from 17.0.2 to 17.0.3 ([#102](https://github.com/Fdawgs/ydh-fhir-api/issues/102)) ([0061e6e](https://github.com/Fdawgs/ydh-fhir-api/commit/0061e6e20c1c9fe46d27974f31f4c088b4dc3810))
+* **deps-dev:** bump @commitlint/config-conventional ([#26](https://github.com/Fdawgs/ydh-fhir-api/issues/26)) ([b28ec9f](https://github.com/Fdawgs/ydh-fhir-api/commit/b28ec9fa85eddf9f03b61512c9cbd923c4ff9c16))
+* **deps-dev:** bump @commitlint/config-conventional ([#70](https://github.com/Fdawgs/ydh-fhir-api/issues/70)) ([6be77d3](https://github.com/Fdawgs/ydh-fhir-api/commit/6be77d34f647a21c51116f35f77e54e2c24e5baf))
+* **deps-dev:** bump @faker-js/faker from 6.1.2 to 6.2.0 ([#31](https://github.com/Fdawgs/ydh-fhir-api/issues/31)) ([aa951e2](https://github.com/Fdawgs/ydh-fhir-api/commit/aa951e20f6841670afb9c2b33bf718b84fb16c23))
+* **deps-dev:** bump @faker-js/faker from 6.2.0 to 6.3.1 ([#42](https://github.com/Fdawgs/ydh-fhir-api/issues/42)) ([4732969](https://github.com/Fdawgs/ydh-fhir-api/commit/473296911e3f085bef3ef9f7e609471878af1d96))
+* **deps-dev:** bump @faker-js/faker from 6.3.1 to 7.1.0 ([#67](https://github.com/Fdawgs/ydh-fhir-api/issues/67)) ([5f921c4](https://github.com/Fdawgs/ydh-fhir-api/commit/5f921c4136582db4f626666a56b4676f7102cb42))
+* **deps-dev:** bump @faker-js/faker from 7.1.0 to 7.2.0 ([#81](https://github.com/Fdawgs/ydh-fhir-api/issues/81)) ([341d923](https://github.com/Fdawgs/ydh-fhir-api/commit/341d92334adc27be3df27754568f3ac01b19b002))
+* **deps-dev:** bump @faker-js/faker from 7.2.0 to 7.3.0 ([#117](https://github.com/Fdawgs/ydh-fhir-api/issues/117)) ([dac88a1](https://github.com/Fdawgs/ydh-fhir-api/commit/dac88a1b49a0cfee7951e4559e2850625fcabc29))
+* **deps-dev:** bump autocannon from 7.8.1 to 7.9.0 ([#40](https://github.com/Fdawgs/ydh-fhir-api/issues/40)) ([48d9617](https://github.com/Fdawgs/ydh-fhir-api/commit/48d96178148380ccff33aa76b8cc149788ccdd0d))
+* **deps-dev:** bump eslint from 8.13.0 to 8.14.0 ([#29](https://github.com/Fdawgs/ydh-fhir-api/issues/29)) ([c1cfb64](https://github.com/Fdawgs/ydh-fhir-api/commit/c1cfb649b31de7646c9de9ad01d824b362756858))
+* **deps-dev:** bump eslint from 8.14.0 to 8.15.0 ([#45](https://github.com/Fdawgs/ydh-fhir-api/issues/45)) ([6c50ed7](https://github.com/Fdawgs/ydh-fhir-api/commit/6c50ed7b980b3a36d799c672d75babd594d3943c))
+* **deps-dev:** bump eslint from 8.15.0 to 8.16.0 ([#63](https://github.com/Fdawgs/ydh-fhir-api/issues/63)) ([341c028](https://github.com/Fdawgs/ydh-fhir-api/commit/341c02880f20c5740a34bce775d398aee51da82f))
+* **deps-dev:** bump eslint from 8.16.0 to 8.17.0 ([#85](https://github.com/Fdawgs/ydh-fhir-api/issues/85)) ([1231ffb](https://github.com/Fdawgs/ydh-fhir-api/commit/1231ffb6134daab1c13466142072a1c886b4d276))
+* **deps-dev:** bump eslint-plugin-jest from 26.1.4 to 26.1.5 ([#35](https://github.com/Fdawgs/ydh-fhir-api/issues/35)) ([e3277cb](https://github.com/Fdawgs/ydh-fhir-api/commit/e3277cbca19363080f114df4cad2cc73e279ae2d))
+* **deps-dev:** bump eslint-plugin-jest from 26.1.5 to 26.4.6 ([#64](https://github.com/Fdawgs/ydh-fhir-api/issues/64)) ([bd03da6](https://github.com/Fdawgs/ydh-fhir-api/commit/bd03da62ff0a33527edd268e5c2e1a127e5119c6))
+* **deps-dev:** bump eslint-plugin-jest from 26.4.6 to 26.5.3 ([#84](https://github.com/Fdawgs/ydh-fhir-api/issues/84)) ([0782297](https://github.com/Fdawgs/ydh-fhir-api/commit/0782297811d8e4bb3af1837107ee3aa85302543e))
+* **deps-dev:** bump eslint-plugin-jsdoc from 38.1.6 to 39.2.9 ([#22](https://github.com/Fdawgs/ydh-fhir-api/issues/22)) ([9b39537](https://github.com/Fdawgs/ydh-fhir-api/commit/9b39537db376e55233860f3e7589e0b0f11e6382))
+* **deps-dev:** bump eslint-plugin-jsdoc from 39.2.9 to 39.3.2 ([#74](https://github.com/Fdawgs/ydh-fhir-api/issues/74)) ([46f14d2](https://github.com/Fdawgs/ydh-fhir-api/commit/46f14d2756450d1441cce65b8b4acb3094df272f))
+* **deps-dev:** bump eslint-plugin-jsdoc from 39.3.2 to 39.3.3 ([#104](https://github.com/Fdawgs/ydh-fhir-api/issues/104)) ([57fbbd6](https://github.com/Fdawgs/ydh-fhir-api/commit/57fbbd6d1347b2c14c4845b48b5c6718400e20ad))
+* **deps-dev:** bump eslint-plugin-security from 1.4.0 to 1.5.0 ([#34](https://github.com/Fdawgs/ydh-fhir-api/issues/34)) ([2e900ea](https://github.com/Fdawgs/ydh-fhir-api/commit/2e900eac7571e8f9a419002e84552c56a83a4358))
+* **deps-dev:** bump glob from 7.2.0 to 8.0.1 ([#23](https://github.com/Fdawgs/ydh-fhir-api/issues/23)) ([d8fd670](https://github.com/Fdawgs/ydh-fhir-api/commit/d8fd6709932b3f7ef7a71cb6e947e90fbdd89230))
+* **deps-dev:** bump glob from 8.0.1 to 8.0.3 ([#75](https://github.com/Fdawgs/ydh-fhir-api/issues/75)) ([3846dcc](https://github.com/Fdawgs/ydh-fhir-api/commit/3846dcc1476522b02626f8e735a0fe97b844f9ef))
+* **deps-dev:** bump husky from 7.0.4 to 8.0.1 ([#47](https://github.com/Fdawgs/ydh-fhir-api/issues/47)) ([09ad888](https://github.com/Fdawgs/ydh-fhir-api/commit/09ad888c17944549570046f702f0f908df64a74d))
+* **deps-dev:** bump jest from 27.5.1 to 28.0.3 ([#25](https://github.com/Fdawgs/ydh-fhir-api/issues/25)) ([6d84af1](https://github.com/Fdawgs/ydh-fhir-api/commit/6d84af1d6a315515cefaf60ef477de2cee2746e9))
+* **deps-dev:** bump jest from 28.0.3 to 28.1.0 ([#46](https://github.com/Fdawgs/ydh-fhir-api/issues/46)) ([7ed9a85](https://github.com/Fdawgs/ydh-fhir-api/commit/7ed9a8595ed71104c1138102dc195d346d22137c))
+* **deps-dev:** bump jest from 28.1.0 to 28.1.1 ([#82](https://github.com/Fdawgs/ydh-fhir-api/issues/82)) ([e49b861](https://github.com/Fdawgs/ydh-fhir-api/commit/e49b861d74f4affe47acbafa6deaee24cb9e8730))
+* **deps-dev:** bump jest from 28.1.1 to 28.1.2 ([#96](https://github.com/Fdawgs/ydh-fhir-api/issues/96)) ([a56c135](https://github.com/Fdawgs/ydh-fhir-api/commit/a56c135830145e8864be014a9442d91fede1dd36))
+* **deps-dev:** bump jest from 28.1.2 to 28.1.3 ([#119](https://github.com/Fdawgs/ydh-fhir-api/issues/119)) ([a7f013c](https://github.com/Fdawgs/ydh-fhir-api/commit/a7f013cdc97fdee2ee2c6d29ee0f59c5fb2428b0))
+* **deps-dev:** bump nock from 13.2.6 to 13.2.8 ([#113](https://github.com/Fdawgs/ydh-fhir-api/issues/113)) ([6fecb44](https://github.com/Fdawgs/ydh-fhir-api/commit/6fecb449ab85488fb81bd6315c7098b60e3cf6e0))
+* **deps-dev:** bump nodemon from 2.0.15 to 2.0.16 ([#33](https://github.com/Fdawgs/ydh-fhir-api/issues/33)) ([bd94de4](https://github.com/Fdawgs/ydh-fhir-api/commit/bd94de4bf62058531076a38e1ef1f91871172d34))
+* **deps-dev:** bump nodemon from 2.0.16 to 2.0.18 ([#91](https://github.com/Fdawgs/ydh-fhir-api/issues/91)) ([de07d21](https://github.com/Fdawgs/ydh-fhir-api/commit/de07d21c6b31e56e926ee53698f7e7ae1bd2a872))
+* **deps-dev:** bump nodemon from 2.0.18 to 2.0.19 ([#101](https://github.com/Fdawgs/ydh-fhir-api/issues/101)) ([8d235c5](https://github.com/Fdawgs/ydh-fhir-api/commit/8d235c58959b93968c8f8217d337d270352f8710))
+* **deps-dev:** bump pino-pretty from 8.0.0 to 8.1.0 ([#98](https://github.com/Fdawgs/ydh-fhir-api/issues/98)) ([4538bf3](https://github.com/Fdawgs/ydh-fhir-api/commit/4538bf38fed52e15ed9f3429de25da96c7db0872))
+* **deps-dev:** bump playwright from 1.20.2 to 1.21.1 ([#21](https://github.com/Fdawgs/ydh-fhir-api/issues/21)) ([2e91ef3](https://github.com/Fdawgs/ydh-fhir-api/commit/2e91ef307c1cafdc6889dfcfe904c45dd1e321d1))
+* **deps-dev:** bump playwright from 1.21.1 to 1.22.2 ([#62](https://github.com/Fdawgs/ydh-fhir-api/issues/62)) ([663bd2d](https://github.com/Fdawgs/ydh-fhir-api/commit/663bd2da5bc30c87625f94a09cf24ba615a45afa))
+* **deps-dev:** bump playwright from 1.22.2 to 1.23.1 ([#90](https://github.com/Fdawgs/ydh-fhir-api/issues/90)) ([c14e01a](https://github.com/Fdawgs/ydh-fhir-api/commit/c14e01a141b45053fd370a1281716ea39d114ac9))
+* **deps-dev:** bump playwright from 1.23.1 to 1.23.3 ([#108](https://github.com/Fdawgs/ydh-fhir-api/issues/108)) ([115e2d8](https://github.com/Fdawgs/ydh-fhir-api/commit/115e2d88857d321499fcae02329fb786ae402289))
+* **deps-dev:** bump prettier from 2.6.1 to 2.6.2 ([#2](https://github.com/Fdawgs/ydh-fhir-api/issues/2)) ([ef667dc](https://github.com/Fdawgs/ydh-fhir-api/commit/ef667dc5b330240a01c594e8eaeadd9edd3ba454))
+* **deps-dev:** bump prettier from 2.6.2 to 2.7.1 ([#93](https://github.com/Fdawgs/ydh-fhir-api/issues/93)) ([00ba5de](https://github.com/Fdawgs/ydh-fhir-api/commit/00ba5de0af9bc446806df5420d957c1046f101d7))
+* **deps:** bump @fastify/autoload from 4.0.0 to 4.0.1 ([#24](https://github.com/Fdawgs/ydh-fhir-api/issues/24)) ([a5e25ad](https://github.com/Fdawgs/ydh-fhir-api/commit/a5e25add6a3f5df8e91ecb77ee350f524368e3d9))
+* **deps:** bump @fastify/autoload from 4.0.1 to 5.1.0 ([#103](https://github.com/Fdawgs/ydh-fhir-api/issues/103)) ([a1d282b](https://github.com/Fdawgs/ydh-fhir-api/commit/a1d282bd10e84d5276954e1ca063dafa8802880d))
+* **deps:** bump @fastify/basic-auth from 3.0.0 to 3.0.2 ([#38](https://github.com/Fdawgs/ydh-fhir-api/issues/38)) ([aa25489](https://github.com/Fdawgs/ydh-fhir-api/commit/aa25489481b2e9f361d2cb972ad4ac87c5704905))
+* **deps:** bump @fastify/bearer-auth from 7.0.0 to 7.0.1 ([#41](https://github.com/Fdawgs/ydh-fhir-api/issues/41)) ([b2efe89](https://github.com/Fdawgs/ydh-fhir-api/commit/b2efe897f7ab7f4f826f98ba973d1ba29df8245f))
+* **deps:** bump @fastify/helmet from 8.0.0 to 8.1.0 ([#69](https://github.com/Fdawgs/ydh-fhir-api/issues/69)) ([72c1772](https://github.com/Fdawgs/ydh-fhir-api/commit/72c177299397cfc97618a4bd85b0a7253aadbbad))
+* **deps:** bump @fastify/rate-limit from 6.0.0 to 6.0.1 ([#68](https://github.com/Fdawgs/ydh-fhir-api/issues/68)) ([484ef69](https://github.com/Fdawgs/ydh-fhir-api/commit/484ef69d546dccf018ac6bf157de368cf48a4a56))
+* **deps:** bump @fastify/sensible from 4.0.0 to 4.1.0 ([#49](https://github.com/Fdawgs/ydh-fhir-api/issues/49)) ([600bd6c](https://github.com/Fdawgs/ydh-fhir-api/commit/600bd6c1ab91aae9c9bd345afdaa21e79b502b72))
+* **deps:** bump @fastify/static from 5.0.0 to 5.0.2 ([#39](https://github.com/Fdawgs/ydh-fhir-api/issues/39)) ([e1c1100](https://github.com/Fdawgs/ydh-fhir-api/commit/e1c11003de73ff294ce8a9d8bb270e5572df57cd))
+* **deps:** bump @tediousjs/connection-string from 0.3.0 to 0.4.0 ([#20](https://github.com/Fdawgs/ydh-fhir-api/issues/20)) ([cc65c15](https://github.com/Fdawgs/ydh-fhir-api/commit/cc65c15d1479e00716cb0f4b0390f8ce8f91cd7d))
+* **deps:** bump @tediousjs/connection-string from 0.4.0 to 0.4.1 ([#79](https://github.com/Fdawgs/ydh-fhir-api/issues/79)) ([d49c975](https://github.com/Fdawgs/ydh-fhir-api/commit/d49c97595a2fef09452009b926c773fc4859fda6))
+* **deps:** bump actions/dependency-review-action from 1 to 2 ([#89](https://github.com/Fdawgs/ydh-fhir-api/issues/89)) ([c850f59](https://github.com/Fdawgs/ydh-fhir-api/commit/c850f598a133da8325798b516b936938d36fc13d))
+* **deps:** bump actions/upload-artifact from 2 to 3 ([#18](https://github.com/Fdawgs/ydh-fhir-api/issues/18)) ([cb66972](https://github.com/Fdawgs/ydh-fhir-api/commit/cb66972457fda5e7e0ff204e4a90ac0e4b50b8ff))
+* **deps:** bump dotenv from 16.0.0 to 16.0.1 ([#66](https://github.com/Fdawgs/ydh-fhir-api/issues/66)) ([59fe9b8](https://github.com/Fdawgs/ydh-fhir-api/commit/59fe9b8b36acb892ba2cb25b6cdd44ae015311db))
+* **deps:** bump env-schema from 4.0.0 to 5.0.0 ([#61](https://github.com/Fdawgs/ydh-fhir-api/issues/61)) ([c261b34](https://github.com/Fdawgs/ydh-fhir-api/commit/c261b34454fca1e14748b40a9d5d6783fa6ab86f))
+* **deps:** bump fast-jwt from 1.5.3 to 1.5.4 ([#28](https://github.com/Fdawgs/ydh-fhir-api/issues/28)) ([32d6726](https://github.com/Fdawgs/ydh-fhir-api/commit/32d67268a7df24598e7658bfd285e071f5bc4611))
+* **deps:** bump fast-jwt from 1.5.4 to 1.6.1 ([#118](https://github.com/Fdawgs/ydh-fhir-api/issues/118)) ([151f05d](https://github.com/Fdawgs/ydh-fhir-api/commit/151f05d288e6073e680f5ce96b4bc9dec62a370f))
+* **deps:** bump fastify from 3.28.0 to 3.29.0 ([#30](https://github.com/Fdawgs/ydh-fhir-api/issues/30)) ([79a76cc](https://github.com/Fdawgs/ydh-fhir-api/commit/79a76cc5a4edde3c1bafd5f9433cd98695614287))
+* **deps:** bump fastify-disablecache from 2.0.7 to 3.0.0 ([#58](https://github.com/Fdawgs/ydh-fhir-api/issues/58)) ([8de7cea](https://github.com/Fdawgs/ydh-fhir-api/commit/8de7ceae609b73b9be2733c7e76ca76fc9b35a50))
+* **deps:** bump fastify-plugin from 3.0.1 to 4.0.0 ([#112](https://github.com/Fdawgs/ydh-fhir-api/issues/112)) ([53c586c](https://github.com/Fdawgs/ydh-fhir-api/commit/53c586cfafdba5d2985485cdcc7c12f86dcba9e3))
+* **deps:** bump get-jwks from 6.0.3 to 7.0.0 ([#100](https://github.com/Fdawgs/ydh-fhir-api/issues/100)) ([46cfccb](https://github.com/Fdawgs/ydh-fhir-api/commit/46cfccb2784d267034522e36e3fc8ef1ba582ac4))
+* **deps:** bump github/codeql-action from 1 to 2 ([#17](https://github.com/Fdawgs/ydh-fhir-api/issues/17)) ([4b280d9](https://github.com/Fdawgs/ydh-fhir-api/commit/4b280d9a42a9dca984ec2e9ca7bb06766e0b0003))
+* **deps:** bump jwks-rsa from 2.0.5 to 2.1.0 ([#27](https://github.com/Fdawgs/ydh-fhir-api/issues/27)) ([960ec92](https://github.com/Fdawgs/ydh-fhir-api/commit/960ec9209cdfa808e7f4b9e34069d6f805a036c8))
+* **deps:** bump jwks-rsa from 2.1.0 to 2.1.1 ([#48](https://github.com/Fdawgs/ydh-fhir-api/issues/48)) ([7ad4e6a](https://github.com/Fdawgs/ydh-fhir-api/commit/7ad4e6ac5d0ac5107ca98319bf915be0af5f3080))
+* **deps:** bump jwks-rsa from 2.1.1 to 2.1.3 ([#59](https://github.com/Fdawgs/ydh-fhir-api/issues/59)) ([9666760](https://github.com/Fdawgs/ydh-fhir-api/commit/96667600047ef8c2768e9baaa94c09c429d47c8b))
+* **deps:** bump moment from 2.29.2 to 2.29.4 ([#116](https://github.com/Fdawgs/ydh-fhir-api/issues/116)) ([2893c3e](https://github.com/Fdawgs/ydh-fhir-api/commit/2893c3e26e0f52daecc46160febdcf7e5067ea03))
+* **deps:** bump mssql from 8.1.0 to 8.1.2 ([#60](https://github.com/Fdawgs/ydh-fhir-api/issues/60)) ([4fd9d87](https://github.com/Fdawgs/ydh-fhir-api/commit/4fd9d878dc840d053a3d5698a0097351082d8c9e))
+* **deps:** bump pino from 7.10.0 to 7.11.0 ([#32](https://github.com/Fdawgs/ydh-fhir-api/issues/32)) ([dcf0ef4](https://github.com/Fdawgs/ydh-fhir-api/commit/dcf0ef4a67953489b58955c8382fbe600aed93ef))
+* **deps:** bump pino from 7.11.0 to 8.0.0 ([#77](https://github.com/Fdawgs/ydh-fhir-api/issues/77)) ([93a37eb](https://github.com/Fdawgs/ydh-fhir-api/commit/93a37ebe91d0b8b894a91a64293949b3110ab0f6))
+* **deps:** bump pino from 8.0.0 to 8.1.0 ([#114](https://github.com/Fdawgs/ydh-fhir-api/issues/114)) ([1166108](https://github.com/Fdawgs/ydh-fhir-api/commit/1166108b79fbff6b034e2abbd4226d369d0615e9))
+* **deps:** bump pino-pretty from 7.6.1 to 8.0.0 ([#76](https://github.com/Fdawgs/ydh-fhir-api/issues/76)) ([27ab690](https://github.com/Fdawgs/ydh-fhir-api/commit/27ab690ef05f6da537cc2cb2a77c15a5d228fec0))
+* **deps:** bump redoc from 2.0.0-rc.66 to 2.0.0-rc.67 ([#36](https://github.com/Fdawgs/ydh-fhir-api/issues/36)) ([28bf4e0](https://github.com/Fdawgs/ydh-fhir-api/commit/28bf4e04a09bc532375bbfcd0b7cf822d1ce8cd0))
+* **deps:** bump redoc from 2.0.0-rc.67 to 2.0.0-rc.71 ([#72](https://github.com/Fdawgs/ydh-fhir-api/issues/72)) ([14f64d3](https://github.com/Fdawgs/ydh-fhir-api/commit/14f64d33c435a30e196eaf8721f2e3a7bf0960c4))
+* **deps:** bump redoc from 2.0.0-rc.71 to 2.0.0-rc.72 ([#80](https://github.com/Fdawgs/ydh-fhir-api/issues/80)) ([9f4661a](https://github.com/Fdawgs/ydh-fhir-api/commit/9f4661a9ebc79335e3646b975d001558b2f10fe5))
+* **deps:** bump under-pressure from 5.8.0 to 5.8.1 ([#44](https://github.com/Fdawgs/ydh-fhir-api/issues/44)) ([eb62609](https://github.com/Fdawgs/ydh-fhir-api/commit/eb62609e861ac9ef58c2c39ca2c1714325b28f4f))
+* **deps:** bump under-pressure from 5.8.1 to 6.0.0 ([#71](https://github.com/Fdawgs/ydh-fhir-api/issues/71)) ([bf5320e](https://github.com/Fdawgs/ydh-fhir-api/commit/bf5320eb1a54113f433032cacdf19911c5b7215f))
+* **deps:** bump wagoid/commitlint-github-action from 4 to 5 ([#88](https://github.com/Fdawgs/ydh-fhir-api/issues/88)) ([0ea6310](https://github.com/Fdawgs/ydh-fhir-api/commit/0ea6310d1a51e0670171d3c0cef9e466b73dfec7))
+* **deps:** move pino-pretty to dev dependencies ([d8884b1](https://github.com/Fdawgs/ydh-fhir-api/commit/d8884b18a88b5a8c32ed5ff0cea3833ca71b4ce5))
+* **docker-compose:** fix container name ([337781b](https://github.com/Fdawgs/ydh-fhir-api/commit/337781bb8e6ba1f6b10b6deaee7504d1757a8570))
+* use new `[@fastify](https://github.com/fastify)` org dependencies ([#15](https://github.com/Fdawgs/ydh-fhir-api/issues/15)) ([e4c8e14](https://github.com/Fdawgs/ydh-fhir-api/commit/e4c8e14644cd44c831a6e7ffc3c1a349852f0e85))
+
+
+### Documentation
+
+* fix links ([c3edcfe](https://github.com/Fdawgs/ydh-fhir-api/commit/c3edcfecd55855fe9b3cf20230cd0203448ddc22))
+* **history:** fix link syntax ([88f7d84](https://github.com/Fdawgs/ydh-fhir-api/commit/88f7d84244c03d45a950ba8cd812cad47eda6efe))
+* move background section to own file ([a979d17](https://github.com/Fdawgs/ydh-fhir-api/commit/a979d173eb4cb3eebeb3eace9461ebd71318d4c0))
+* **readme:** add acknowledgements and license section ([b704865](https://github.com/Fdawgs/ydh-fhir-api/commit/b7048656b119d914f85efcff3059b184ce118c82))
+* **readme:** add job titles for ydh staff in acknowledgements section ([3efa8e2](https://github.com/Fdawgs/ydh-fhir-api/commit/3efa8e2c37526213e98294dff6738b22e80ef63c))
+* **readme:** add known-issues section ([0d7d85f](https://github.com/Fdawgs/ydh-fhir-api/commit/0d7d85fbb45eb571952d5830ba12ea638f751af5))
+* **readme:** add mention of insomnia example requests ([11d2a2a](https://github.com/Fdawgs/ydh-fhir-api/commit/11d2a2a3645f0ebbb289313d836f52bea039ea3e))
+* **readme:** remove `db:migrate` step, now runs on start of api ([886c57a](https://github.com/Fdawgs/ydh-fhir-api/commit/886c57a87e3c78a13b7fb0e966939aee9ebeab0f))
+* **readme:** remove snyk badge ([f658717](https://github.com/Fdawgs/ydh-fhir-api/commit/f658717994595a56000eb619f19c5112a56c3624))
+* **readme:** use block quotes for notes to enable github md highlights ([f496382](https://github.com/Fdawgs/ydh-fhir-api/commit/f496382db84487f2574999d58931beb22761c432))
+* update deployment steps to use `npm ci` ([4e990ff](https://github.com/Fdawgs/ydh-fhir-api/commit/4e990ff0f8ba4134a83729a51d0974b2cb53fb28))
