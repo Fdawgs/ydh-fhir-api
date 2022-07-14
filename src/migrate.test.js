@@ -4,7 +4,7 @@ const migrate = require("./migrate");
 jest.mock("postgrator");
 
 describe("Migrate Script", () => {
-	beforeAll(async () => {
+	beforeAll(() => {
 		Object.assign(process.env, {
 			DB_CONNECTION_STRING:
 				"Server=localhost,1433;Database=master;User Id=sa;Password=Password!;Encrypt=true;TrustServerCertificate=true;",

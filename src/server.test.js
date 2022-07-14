@@ -124,7 +124,7 @@ describe("Server Deployment", () => {
 	let mockJwksServerTwo;
 	let token;
 
-	beforeAll(async () => {
+	beforeAll(() => {
 		Object.assign(process.env, {
 			DB_CONNECTION_STRING:
 				"Server=localhost,1433;Database=master;User Id=sa;Password=Password!;Encrypt=true;TrustServerCertificate=true;",
@@ -167,8 +167,7 @@ describe("Server Deployment", () => {
 	afterAll(async () => {
 		nock.cleanAll();
 		nock.enableNetConnect();
-		await mockJwksServerOne.stop();
-		await mockJwksServerTwo.stop();
+		await Promise.all([mockJwksServerOne.stop(), mockJwksServerTwo.stop()]);
 	});
 
 	describe("Basic Auth", () => {
@@ -278,7 +277,7 @@ describe("Server Deployment", () => {
 		let server;
 		let currentEnv;
 
-		beforeAll(async () => {
+		beforeAll(() => {
 			Object.assign(process.env, {
 				BEARER_TOKEN_AUTH_ENABLED: "",
 				JWT_JWKS_ARRAY: "",
@@ -522,7 +521,7 @@ describe("Server Deployment", () => {
 		let server;
 		let currentEnv;
 
-		beforeAll(async () => {
+		beforeAll(() => {
 			Object.assign(process.env, {
 				BEARER_TOKEN_AUTH_ENABLED: "",
 				JWT_JWKS_ARRAY: "",
