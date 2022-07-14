@@ -155,17 +155,17 @@ Please adhere to this project's [Code of Conduct](./CODE_OF_CONDUCT.md) when con
 
 ## Acknowledgements
 
--   **Adam Wiles** - Procedure FHIR resource advice
--   **David Suckling** - TrakCare database table structure and frontend support
+-   **Adam Wiles** (Clinical Coding Manager) - Procedure FHIR resource advice
+-   **David Suckling** (Application Support Manager) - TrakCare database table structure and frontend support
 -   [**Dunmail Hodkinson**](https://github.com/Dunmail) - HL7 FHIR STU3 specification adherence and best practices advice
--   **George Dampier** - MedicationStatement FHIR resource advice
--   **Jessica Male** - TrakCare frontend support
+-   **George Dampier** (Pharmacy Systems Manager) - MedicationStatement FHIR resource advice
+-   **Jessica Male** (Application Support Testing Analyst) - TrakCare frontend support
 -   [**Julian Matthews**](https://github.com/NHS-juju) - Bug reports
--   **John Simpson** - MedicationStatement FHIR resource advice
+-   **John Simpson** (Advanced Clinical Pharmacist) - MedicationStatement FHIR resource advice
 -   [**Mark Hunt**](https://github.com/nhsbandit) - JWT and JWKS integration and testing
--   **Michael McCormack** - SQL query optimisation
+-   **Michael McCormack** (Solutions Developer) - SQL query optimisation
 -   [**Neil Hayes-Webster**](https://github.com/NeilHW-YDH) - SQL query optimisation
--   **Nicolas Noblet** - SQL query optimisation, TrakCare database table structure advice
+-   **Nicolas Noblet** (Senior Analyst) - SQL query optimisation, TrakCare database table structure advice
 -   [**Will Jehring**](https://github.com/wjehring) - HL7 FHIR STU3 specification adherence advice, JWT testing
 
 ## License
