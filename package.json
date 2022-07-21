@@ -108,7 +108,7 @@
 		"env-schema": "^5.0.0",
 		"fast-jwt": "^1.6.1",
 		"fastify": "^3.29.0",
-		"fastify-disablecache": "^2.0.8",
+		"fastify-disablecache": "^3.0.0",
 		"fastify-floc-off": "^1.0.7",
 		"fastify-plugin": "^4.0.0",
 		"fastify-swagger": "4.12.0",
